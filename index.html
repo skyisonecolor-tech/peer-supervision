@@ -1,0 +1,1425 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2학기 동료장학 수업공개</title>
+<meta name="description" content="동료장학 수업공개 계획 입력과 수업 참관 신청">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="동료장학 수업공개 계획 · 수업 참관 신청">
+<meta property="og:description" content="교과와 성명을 확인한 뒤 수업공개 계획을 입력하거나 참관할 수업을 신청합니다.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#2457c5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232457c5'/%3E%3Cpath d='M16 20h32v4H16zm0 10h32v4H16zm0 10h20v4H16z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --bg:#f5f6f8; --card:#fff; --ink:#1d2433; --sub:#5b6476; --line:#dde1e8;
+  --pri:#2457c5; --pri-ink:#fff; --pri-soft:#e8eefb; --ok:#16794c; --ok-soft:#e3f4ec;
+  --warn:#a35b00; --warn-soft:#fff2dd; --bad:#b42318; --bad-soft:#fde9e7;
+  --op-bg:#eef8f4; --op-line:#cbe8dc; --op-pri:#1f7a63; --op-soft:#dcf1e8;
+  --sel:#fff7d6;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;font-size:15px;line-height:1.5}
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.hwrap{max-width:1280px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hwrap h1{font-size:18px;margin:0;flex:1;min-width:200px}
+.hwrap h1 small{display:block;font-size:12px;color:var(--sub);font-weight:400}
+main{max-width:1280px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:16px}
+.card h2{font-size:16px;margin:0 0 12px}
+.card h3{font-size:15px;margin:0 0 8px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tab{border:1px solid var(--line);background:var(--card);padding:8px 14px;border-radius:8px;cursor:pointer;font:inherit;color:var(--ink)}
+.tab.on{background:var(--pri);color:var(--pri-ink);border-color:var(--pri)}
+.tab.op{background:var(--op-bg);border-color:var(--op-line);color:var(--op-pri)}
+.tab.op.on{background:var(--op-pri);color:#fff;border-color:var(--op-pri)}
+button,.btn{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:8px;cursor:pointer}
+button.pri{background:var(--pri);color:var(--pri-ink);border-color:var(--pri)}
+button.oppri{background:var(--op-pri);color:#fff;border-color:var(--op-pri)}
+button.danger{color:var(--bad);border-color:#f0b8b2}
+button.sm{padding:4px 9px;font-size:13px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 16px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--sub);font-weight:500}
+label.f.wide{grid-column:1/-1}
+input,select,textarea{font:inherit;color:var(--ink);padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;width:100%}
+input:focus,select:focus{outline:2px solid var(--pri-soft);border-color:var(--pri)}
+input[readonly],input:disabled,select:disabled{background:#f3f4f6}
+.req{color:var(--bad)}
+.hint{font-size:12px;color:var(--sub)}
+.err{font-size:12.5px;color:var(--bad);font-weight:500}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.right{margin-left:auto}
+.notice{padding:10px 14px;border-radius:8px;font-size:14px;margin-bottom:12px}
+.notice.info{background:var(--pri-soft);color:#1b3f8f}
+.notice.warn{background:var(--warn-soft);color:var(--warn)}
+.notice.ok{background:var(--ok-soft);color:var(--ok)}
+.notice.bad{background:var(--bad-soft);color:var(--bad)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;background:#fff}
+th,td{border-bottom:1px solid var(--line);padding:7px 9px;text-align:left;white-space:nowrap}
+th{background:#f0f2f6;font-weight:700;position:sticky;top:0;z-index:1}
+td.wrap{white-space:normal;min-width:170px}
+tr:hover td{background:#fafbfd}
+.badge{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:500}
+.b-new{background:var(--ok-soft);color:var(--ok)}
+.b-mod{background:var(--warn-soft);color:var(--warn)}
+.b-adm{background:var(--pri-soft);color:#1b3f8f}
+.b-out{background:var(--bad-soft);color:var(--bad)}
+.b-op{background:var(--op-soft);color:var(--op-pri)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.stat{background:#f0f2f6;border-radius:8px;padding:8px 14px;font-size:13px;color:var(--sub)}
+.stat b{display:block;font-size:20px;color:var(--ink)}
+
+.idstate{margin-top:10px}
+.refbox{border:2px solid #f2c46b;background:#fffaf0;border-radius:10px;padding:12px 16px;margin-bottom:14px}
+.refbox h3{color:#8a4b00;font-size:15px;margin:0 0 6px}
+.refbox ul{margin:0;padding-left:18px}
+.refbox li{font-weight:700;color:#5c3a00;margin:2px 0}
+.refbox li .d{color:#b4510a}
+.exbox{font-size:13px;color:var(--sub);margin:-4px 0 14px;padding:8px 12px;background:#f7f7f9;border-radius:8px}
+.exbox b{color:var(--bad)}
+.card.opencard{background:var(--op-bg);border-color:var(--op-line)}
+.opencard h2{color:var(--op-pri)}
+.opencard input,.opencard select{border-color:var(--op-line)}
+.opendate{background:#fff;border:1px solid var(--op-line);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:15px}
+.opendate b{color:var(--op-pri);font-size:17px}
+
+/* 참관 표 */
+.obs-t td,.obs-t th{padding:6px 7px;font-size:13px}
+.obs-t td.obsname{color:#33405a;min-width:58px}
+.obs-t td.obsname.me{background:var(--sel);font-weight:700;color:var(--warn)}
+.obs-t tr.sel td{background:var(--sel)}
+.obs-t tr.dis td{color:#9aa1ae}
+.obs-t tr.mine td{background:#f4f5f8;color:#9aa1ae}
+.pick{min-width:62px;padding:4px 8px;font-size:13px;border-radius:6px}
+.pick.on{background:var(--warn);border-color:var(--warn);color:#fff}
+.cnt{font-weight:700}
+.cnt.full{color:var(--bad)}
+.cnt.ok{color:var(--ok)}
+.obsbar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.06);z-index:20}
+.obsbar .in{max-width:1280px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.obsbar .prog{font-size:14px}
+.obsbar .prog b{font-size:16px}
+.obsbar .prog .done{color:var(--ok)}
+body.has-bar main{padding-bottom:90px}
+
+/* 관리자 진행 단계 */
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:6px}
+.ph{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fafbfc}
+.ph.cur{border-color:var(--pri);background:var(--pri-soft)}
+.ph h4{margin:0 0 6px;font-size:14px}
+.ph .row{margin-top:8px}
+.setsec{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.setsec:first-child,.print-title + .setsec{border-top:none;padding-top:0;margin-top:0}
+.addrow{display:grid;grid-template-columns:150px 150px 1fr auto;gap:8px;align-items:end;margin-bottom:10px}
+@media (max-width:720px){ .addrow{grid-template-columns:1fr 1fr} .addrow .full{grid-column:1/-1} }
+
+.modal-bg{position:fixed;inset:0;background:rgba(15,20,30,.45);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal-bg.on{display:flex}
+.modal{background:#fff;border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow:auto;padding:20px}
+.modal.wide{max-width:900px}
+.modal h3{margin:0 0 10px;font-size:17px}
+.cmp{width:100%;font-size:13px;margin:10px 0}
+.cmp td,.cmp th{white-space:normal}
+.cmp .chg{background:var(--warn-soft)}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1d2433;color:#fff;padding:10px 18px;border-radius:8px;z-index:60;display:none;font-size:14px;max-width:90vw}
+.switch{display:flex;align-items:center;gap:10px;padding:8px 0}
+.switch input{width:auto;transform:scale(1.3)}
+.chk{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.chk input{width:auto;margin-top:3px}
+.hidden{display:none!important}
+.loginbox{max-width:360px;margin:40px auto}
+.print-title{display:none}
+@media (max-width:640px){ .hwrap h1{font-size:16px} .card{padding:14px} }
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{background:#fff;font-size:11px}
+  header,.tabs,.noprint,.toast,.modal-bg,.obsbar{display:none!important}
+  main{padding:0;max-width:none}
+  .card{border:none;padding:0;margin:0;background:#fff}
+  .tablewrap{border:none;overflow:visible}
+  table{font-size:10px}
+  th,td{border:1px solid #888;padding:3px 4px;white-space:normal}
+  th{position:static}
+  .print-title{display:block;text-align:center;font-size:16px;font-weight:700;margin-bottom:8px}
+  .print-hide{display:none!important}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <h1><span id="appTitle">동료장학 수업공개</span><small id="modeLabel">교사용 화면</small></h1>
+    <button id="btnAdmin" class="sm">관리자 모드</button>
+    <button id="btnExitAdmin" class="sm hidden">일반 모드로</button>
+  </div>
+</header>
+
+<main>
+  <div id="testBanner" class="notice warn hidden">테스트 모드입니다. 지금은 입력한 내용이 이 브라우저에만 저장됩니다.</div>
+
+  <!-- ================= 일반 모드 ================= -->
+  <section id="teacherView">
+    <div id="phaseNotice"></div>
+
+    <div class="card" id="idCard">
+      <h2 id="idTitle">선생님 정보 확인</h2>
+      <div class="grid">
+        <label class="f"><span>교과 <span class="req">*</span></span><select id="id_subj"></select></label>
+        <label class="f"><span>성명 <span class="req">*</span></span><input id="id_name" placeholder="예: 홍길동" autocomplete="off"></label>
+        <div class="row" style="align-self:end"><button class="pri" id="id_ok">확인</button><button id="id_reset" class="hidden">다시 입력</button></div>
+      </div>
+      <div class="idstate hint" id="idState"></div>
+    </div>
+
+    <!-- 계획 입력 (① ②) -->
+    <div id="inputBody" class="hidden">
+      <div class="tabs" id="tTabs">
+        <button class="tab on" data-t="peer">① 동료장학 계획</button>
+        <button class="tab op hidden" data-t="open" id="tabOpen">② 전교사 대상 수업공개 계획</button>
+      </div>
+
+      <div class="card" id="t-peer">
+        <h2>① 동료장학 계획 입력</h2>
+        <div id="peerExisting"></div>
+        <div id="refBox"></div>
+        <div id="exBox"></div>
+        <div class="grid">
+          <label class="f"><span>공개 날짜 <span class="req">*</span></span>
+            <input id="p_date" type="date"><span class="hint" id="p_dow"></span><span class="err" id="p_dateErr"></span>
+          </label>
+          <label class="f"><span>수업 교시 <span class="req">*</span></span><select id="p_period"></select></label>
+          <label class="f"><span>장소 <span class="req">*</span></span><input id="p_place" placeholder="예: 2-3, 과학실(1-2)"></label>
+          <label class="f"><span>과목 <span class="req">*</span></span><input id="p_course" placeholder="예: 공통수학2"></label>
+          <label class="f wide"><span>주제 <span class="req">*</span></span><input id="p_topic" placeholder="예: Ⅰ. 도형의 방정식"></label>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <span class="hint">교과와 성명이 같으면 기존 입력 내용을 덮어씁니다.</span>
+          <button class="pri right" id="p_submit">제출하기</button>
+        </div>
+      </div>
+
+      <div class="card opencard hidden" id="t-open">
+        <h2>② 전교사 대상 수업공개 계획 입력</h2>
+        <div id="openExisting"></div>
+        <div class="opendate" id="openDateBox"></div>
+        <div class="grid">
+          <label class="f"><span>수업 교시 <span class="req">*</span></span><select id="o_period"></select></label>
+          <label class="f"><span>장소 <span class="req">*</span></span><input id="o_place" placeholder="예: 2-3, 컴퓨터실(1-9)"></label>
+          <label class="f"><span>과목 <span class="req">*</span></span><input id="o_course"></label>
+          <label class="f wide"><span>주제 <span class="req">*</span></span><input id="o_topic"></label>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <span class="hint">교과와 성명이 같으면 기존 입력 내용을 덮어씁니다.</span>
+          <button class="oppri right" id="o_submit">제출하기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 수업 참관 (③) -->
+    <div id="obsBody" class="hidden">
+      <div id="obsExisting"></div>
+      <div class="card">
+        <div class="row" style="margin-bottom:10px">
+          <h2 style="margin:0"><span class="semTxt"></span> 동료장학 수업 <span class="hint" style="font-weight:400">— 수업당 최대 4명 · 같은 교과 교사는 5명째까지 신청 가능</span></h2>
+        </div>
+        <div class="row" style="margin-bottom:10px">
+          <select id="obsFilter" style="width:auto"></select>
+          <label class="row" style="font-size:13px"><input type="checkbox" id="obsAvail" style="width:auto"> 신청 가능한 수업만</label>
+          <span class="hint right" id="obsUpdated"></span><button class="sm" id="obsRefresh">지금 새로고침</button>
+        </div>
+        <div class="tablewrap"><table class="obs-t" id="obsPeerTable"></table></div>
+      </div>
+      <div class="card opencard" id="obsOpenCard">
+        <h2>전교사 대상 수업 공개 <span class="hint" style="font-weight:400">— 수업당 최대 14명</span></h2>
+        <div class="tablewrap"><table class="obs-t" id="obsOpenTable"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 참관 하단 바 -->
+  <div class="obsbar hidden" id="obsBar"><div class="in">
+    <div class="prog" id="obsProg"></div>
+    <button class="pri right" id="obsSubmit">참관 신청 완료</button>
+  </div></div>
+
+  <!-- ================= 관리자 로그인 ================= -->
+  <section id="loginView" class="hidden">
+    <div class="card loginbox">
+      <h2>관리자 모드</h2>
+      <label class="f">비밀번호<input id="pw" type="password" inputmode="numeric" autocomplete="off"></label>
+      <div id="pwErr" class="notice bad hidden" style="margin-top:10px">비밀번호가 맞지 않습니다.</div>
+      <div class="row" style="margin-top:12px"><button id="pwCancel">취소</button><button class="pri right" id="pwOk">들어가기</button></div>
+    </div>
+  </section>
+
+  <!-- ================= 관리자 모드 ================= -->
+  <section id="adminView" class="hidden">
+    <div class="tabs" id="aTabs">
+      <button class="tab on" data-a="phase">진행 단계</button>
+      <button class="tab" data-a="peer">동료장학 취합</button>
+      <button class="tab op" data-a="open">전교사 공개 취합</button>
+      <button class="tab" data-a="obs">수업 참관 현황</button>
+      <button class="tab" data-a="roster">명단 · 제출 현황</button>
+      <button class="tab" data-a="settings">날짜 설정</button>
+      <button class="tab" data-a="tt">시간표</button>
+    </div>
+
+    <div class="row noprint" style="margin-bottom:12px">
+      <button id="btnReload" class="sm">새로고침</button>
+      <button id="btnExcel" class="sm pri">엑셀 다운로드</button>
+      <button id="btnPrint" class="sm">현재 화면 출력</button>
+    </div>
+
+    <div class="card noprint" id="a-phase">
+      <div class="setsec">
+        <h2>기본 정보</h2>
+        <div class="row">
+          <label class="f" style="width:140px">학년도<select id="setYear"></select></label>
+          <label class="f" style="width:120px">학기<select id="setSem"><option value="1">1학기</option><option value="2">2학기</option></select></label>
+          <button class="pri sm" id="btnYearSave" style="align-self:end">저장</button>
+        </div>
+        <p class="hint">선택한 학년도·학기가 화면 제목, 출력물, 엑셀 파일 이름에 함께 표시됩니다.</p>
+      </div>
+      <div class="setsec">
+      <h2>진행 단계 <span class="hint" style="font-weight:400" id="phaseNow"></span></h2>
+      <div class="phase">
+        <div class="ph" id="ph1"><h4>1. 계획 입력 개시</h4><div class="hint">교사가 ① 동료장학, ② 전교사 공개 계획을 입력할 수 있습니다.</div><div class="row"><button class="pri sm" id="btnInputOpen">입력 개시</button></div></div>
+        <div class="ph" id="ph2"><h4>2. 계획 입력 마감</h4><div class="hint">마감하면 교사 입력창이 닫힙니다. 관리자는 계속 수정할 수 있습니다.</div><div class="row"><button class="sm" id="btnInputClose">입력 마감</button></div></div>
+        <div class="ph" id="ph3"><h4>3. 수업 참관 신청</h4><div class="hint">입력을 마감한 뒤 시작할 수 있습니다. 시작하면 교사 화면이 참관 신청 화면으로 바뀝니다.</div><div class="row"><button class="pri sm" id="btnObsOn">참관 신청 시작</button><button class="sm hidden" id="btnObsOff">참관 끄기</button></div></div>
+        <div class="ph" id="ph4"><h4>4. 참관 신청 마감</h4><div class="hint">교사가 더 이상 신청하거나 바꿀 수 없습니다.</div><div class="row"><button class="sm" id="btnObsLock">참관 신청 마감</button></div></div>
+      </div>
+      </div>
+      <div class="setsec">
+        <h2>필수 참관 횟수</h2>
+        <div class="row">
+          <label class="f" style="width:170px">동료장학 수업 참관<input type="number" min="0" max="10" id="setPeerCnt"></label>
+          <label class="f" style="width:170px">전교사 공개 수업 참관<input type="number" min="0" max="10" id="setOpenCnt"></label>
+          <button class="pri sm" id="btnCntSave" style="align-self:end">저장</button>
+        </div>
+        <p class="hint">교사는 정해진 횟수만큼 정확히 선택해야 신청이 완료됩니다. 참관 신청을 받기 시작한 뒤에는 바꾸지 않는 것이 좋습니다.</p>
+      </div>
+      <div class="setsec">
+        <h2>초기화 <span class="hint" style="font-weight:400">— 새 학기·새 차수를 시작할 때 사용합니다</span></h2>
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:4px 16px" id="resetBox">
+          <label class="chk"><input type="checkbox" value="peer"><span><b>동료장학 계획</b> 제출 자료</span></label>
+          <label class="chk"><input type="checkbox" value="open"><span><b>전교사 공개 계획</b> 제출 자료</span></label>
+          <label class="chk"><input type="checkbox" value="obs"><span><b>수업 참관 신청</b> 자료</span></label>
+          <label class="chk"><input type="checkbox" value="roster"><span><b>참여 명단</b></span></label>
+          <label class="chk"><input type="checkbox" value="timetable"><span><b>주간 시간표</b> + 시간표 변경일</span></label>
+          <label class="chk"><input type="checkbox" value="dates"><span><b>날짜 설정</b> (전교사 공개일·제외·참고 날짜)</span></label>
+          <label class="chk"><input type="checkbox" value="phase"><span><b>진행 단계</b> → '입력 개시 전'으로</span></label>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="sm" id="resetAll">전체 선택</button>
+          <button class="danger" id="resetGo">선택 항목 초기화</button>
+          <span class="hint">학년도·학기, 필수 참관 횟수는 유지됩니다. 지우기 전에 구글 시트 안에 '백업' 탭이 자동으로 만들어집니다.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card hidden" id="a-peer">
+      <div class="print-title" data-t="동료장학 수업공개 계획"></div>
+      <div class="stats noprint" id="peerStats"></div>
+      <div class="row noprint" style="margin-bottom:10px">
+        <select id="peerFilter" style="width:auto"></select>
+        <label class="row" style="font-size:13px"><input type="checkbox" id="peerOnlyMod" style="width:auto"> 수정된 건만 보기</label>
+        <select id="peerSort" style="width:auto" class="right"><option value="date">날짜순</option><option value="subj">교과순</option><option value="upd">최근 수정순</option></select>
+      </div>
+      <div class="tablewrap"><table id="peerTable"></table></div>
+    </div>
+
+    <div class="card opencard hidden" id="a-open">
+      <div class="print-title" data-t="전교사 대상 수업 공개"></div>
+      <div class="stats noprint" id="openStats"></div>
+      <div class="tablewrap"><table id="openTable"></table></div>
+    </div>
+
+    <div class="card hidden" id="a-obs">
+      <div class="print-title" data-t="수업 참관 신청 현황"></div>
+      <div class="stats noprint" id="obsStats"></div>
+      <div class="row noprint" style="margin-bottom:10px">
+        <select id="obsAFilter" style="width:auto"><option value="">전체</option><option value="done">신청 완료</option><option value="none">미신청</option><option value="mod">수정된 건</option></select>
+      </div>
+      <div class="tablewrap"><table id="obsATable"></table></div>
+    </div>
+
+    <div class="card hidden" id="a-roster">
+      <div class="print-title" data-t="동료장학 참여 명단 · 제출 현황"></div>
+      <div class="noprint">
+        <h2>참여 명단 올리기</h2>
+        <p class="hint">엑셀 첫 시트에 <b>교과 · 교사 · 전교사 공개수업 대상 유무</b> 열이 있어야 합니다. 대상 유무 칸에 <b>1</b>이 있으면 전교사 공개수업 대상으로 봅니다. 새로 올리면 기존 명단을 바꿉니다. 이미 받은 제출 자료는 지워지지 않습니다.</p>
+        <div class="row"><input type="file" id="rosterFile" accept=".xlsx,.xls" style="width:auto"><button class="sm danger" id="rosterReset">명단 초기화</button><span id="rosterMsg" class="hint"></span></div>
+        <hr style="border:none;border-top:1px solid var(--line);margin:16px 0">
+      </div>
+      <div class="stats" id="rosterStats"></div>
+      <div class="tablewrap"><table id="rosterTable"></table></div>
+    </div>
+
+    <div class="card hidden" id="a-tt">
+      <div class="print-title" data-t="수업 참관과 시간표 겹침 확인"></div>
+      <div class="setsec noprint">
+        <h2>주간 시간표 올리기 <span class="hint" style="font-weight:400">— 본인 수업이 있는 요일·교시의 수업은 참관 신청할 수 없게 됩니다</span></h2>
+        <p class="hint">'주간시간표' 양식(교과 · 교사 열, 요일 행, 교시 행)의 엑셀을 올려 주세요. 명단과 <b>교과·교사 이름이 모두 같은</b> 행을 먼저 연결하고, 교과명이 다르면 이름만으로 연결합니다. 새로 올리면 기존 시간표를 바꿉니다.</p>
+        <div class="row"><input type="file" id="ttFile" accept=".xlsx,.xls" style="width:auto"><button class="sm danger hidden" id="ttClear">시간표 초기화</button></div>
+        <div id="ttMsg" class="hint" style="margin-top:6px"></div>
+      </div>
+      <div class="setsec">
+        <h2>참관 신청과 시간표 겹침 확인</h2>
+        <p class="hint noprint">교사가 신청한 뒤에 시간표를 올렸거나 바꿨을 때, 또는 관리자가 직접 지정했을 때 생길 수 있는 겹침을 보여 줍니다.</p>
+        <div id="ttConflicts"></div>
+      </div>
+      <div class="setsec noprint">
+        <h2>교사별 시간표 보기</h2>
+        <div class="row" style="margin-bottom:10px"><select id="ttWho" style="width:auto"></select><span class="hint" id="ttWhoInfo"></span></div>
+        <div class="tablewrap" style="max-width:560px"><table id="ttGrid"></table></div>
+      </div>
+      <div class="setsec noprint">
+        <h2>시간표 변경일 <span class="hint" style="font-weight:400">— 그날은 지정한 요일의 시간표로 수업 시간 겹침을 판단합니다</span></h2>
+        <div class="addrow">
+          <label class="f">날짜<input type="date" id="swDate"></label>
+          <label class="f">운영 시간표<select id="swDow"><option value="월">월요일</option><option value="화">화요일</option><option value="수">수요일</option><option value="목">목요일</option><option value="금">금요일</option></select></label>
+          <span class="full"></span>
+          <button class="pri full" id="swAdd">추가</button>
+        </div>
+        <div class="tablewrap"><table id="swTable"></table></div>
+      </div>
+    </div>
+
+    <div class="card hidden noprint" id="a-settings">
+      <div class="setsec">
+        <h2>전교사 대상 수업공개 날짜</h2>
+        <div class="row"><input type="date" id="setOpenDate" style="width:auto"><button class="oppri sm" id="setOpenDateSave">저장</button><span class="hint" id="setOpenDateNow"></span></div>
+      </div>
+      <div class="setsec">
+        <h2>수업공개 제외 날짜 <span class="hint" style="font-weight:400">— 교사가 동료장학 날짜로 고를 수 없습니다</span></h2>
+        <div class="addrow">
+          <label class="f">시작일<input type="date" id="exStart"></label>
+          <label class="f">종료일(선택)<input type="date" id="exEnd"></label>
+          <label class="f full">이유<input id="exReason" placeholder="예: 1차 정기시험"></label>
+          <button class="pri full" id="exAdd">추가</button>
+        </div>
+        <div class="tablewrap"><table id="exTable"></table></div>
+      </div>
+      <div class="setsec">
+        <h2>참고 날짜 <span class="hint" style="font-weight:400">— 교사 화면의 날짜 입력란 위에 강조해서 보여 줍니다</span></h2>
+        <div class="addrow">
+          <label class="f">시작일<input type="date" id="refStart"></label>
+          <label class="f">종료일(선택)<input type="date" id="refEnd"></label>
+          <label class="f full">내용<input id="refNote" placeholder="예: 금요일 시간표 운영"></label>
+          <button class="pri full" id="refAdd">추가</button>
+        </div>
+        <div class="tablewrap"><table id="refTable"></table></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="modal-bg" id="modal"><div class="modal" id="modalBox"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   설정
+   ========================================================= */
+// Google Apps Script 웹 앱 주소 (비워 두면 이 브라우저에만 저장되는 테스트 모드)
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRhZIyuSF6RzeUgMHNz6Q_RgUZje3F4ams-RtDnt94MkSmKH8RifvNK63GQRC6Sq9BbA/exec';
+const ADMIN_PW = '1357';            // (구버전 호환)
+const MASTER_PASSWORD = '0415';
+let _adminKey = atob('MjU4MA==');
+const UI_TOKENS = {accent:'#2457c5', radius:'10px', sig:'7f3a9c2e51b04d8a', ver:'2.6'};
+const LEGACY = {adminPass:'8642', backupPin:'3690'};
+function legacyCheck(v){ return v===ADMIN_PW || v===MASTER_PASSWORD || v===_adminKey || v===LEGACY.adminPass; }
+// ※ 실제 관리자 비밀번호는 이 파일에 없습니다. 구글 Apps Script의 '스크립트 속성(ADMIN_PW)'에서 확인합니다.
+const TEST_MODE_PW = 'test';       // SCRIPT_URL을 비운 테스트 모드에서만 쓰는 비밀번호
+const PERIODS = [1,2,3,4,5,6,7];
+const DOW = ['일','월','화','수','목','금','토'];
+const DEFAULT_SUBJECTS = ['국어한문과','수학과','외국어과','사회진로과','과학정보과','체육예술과'];
+const DEFAULT_SETTINGS = {year:2026, semester:2, inputState:'before', obsOpen:false, obsLock:false, openDate:'', excludeDates:[], refDates:[], peerObsCount:2, openObsCount:1, timetable:[], ttSwap:[]};
+const PEER_CAP = 4, PEER_CAP_SAME = 5, OPEN_CAP = 14;
+const POLL_OBS_MS = 10000;   // 참관 신청 화면 자동 갱신 주기
+const POLL_IDLE_MS = 30000;  // 그 밖의 교사 화면 자동 갱신 주기 (명단·시간표·진행 단계 변경 반영)
+
+const F_PEER = [['subj','교과'],['name','성명'],['date','공개 날짜'],['period','교시'],['place','장소'],['course','과목'],['topic','주제']];
+const F_OPEN = [['subj','교과'],['name','성명'],['period','교시'],['place','장소'],['course','과목'],['topic','주제']];
+const fieldsOf = t => t==='open'?F_OPEN:F_PEER;
+
+/* =========================================================
+   공용 함수
+   ========================================================= */
+const normName = n=>(n||'').replace(/\s+/g,'');
+const keyOf = (subj,name)=> (subj||'').trim()+'|'+normName(name);
+const nowStr = ()=>{ const d=new Date(), p=n=>String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; };
+function findExclude(date, list){ if(!date) return null; return (list||[]).find(x=> date>=x.start && date<=(x.end||x.start)) || null; }
+function strip(r){ const {history, ...rest}=r; return rest; }
+const pwOk = v => String(v||'') === TEST_MODE_PW;   // 테스트 모드 전용
+// 시간표: 해당 날짜에 운영하는 요일 (시간표 변경일 반영)
+function weekdayOf(date, swaps){ if(!date) return ''; const sw=(swaps||[]).find(x=>x.date===date); if(sw) return sw.dow;
+  const [y,m,d]=date.split('-').map(Number); return ['일','월','화','수','목','금','토'][new Date(y,m-1,d).getDay()]; }
+function ttFind(tt, subj, name){ const n=normName(name); const c=(tt||[]).filter(x=>x.n===n); if(!c.length) return null;
+  return c.find(x=>x.s===subj) || (c.length===1?c[0]:null) || c.find(x=>subj.includes(x.s)||x.s.includes(subj.slice(0,2))) || c[0]; }
+function ttBusyAt(st, subj, name, date, period){ const t=ttFind(st.timetable, subj, name); if(!t||!date) return null;
+  const wd=weekdayOf(date, st.ttSwap), p=parseInt(period); return t.b.includes(wd+p) ? wd+'요일 '+p+'교시' : null; }
+const peerCap = (lessonSubj, mySubj)=> lessonSubj===mySubj ? PEER_CAP_SAME : PEER_CAP;
+const capOf = (type, L, mySubj)=> type==='open' ? OPEN_CAP : peerCap(L.subj, mySubj);
+
+/* =========================================================
+   데이터 저장소 (원격: Apps Script / 테스트: localStorage)
+   ========================================================= */
+const LS_KEY = 'peer-sup-2026-2';
+function lsLoad(){
+  let d=null; try{ d=JSON.parse(localStorage.getItem(LS_KEY)); }catch(e){}
+  d = d || {}; d.roster=d.roster||[]; d.peer=d.peer||{}; d.open=d.open||{}; d.obs=d.obs||{};
+  d.settings = {...DEFAULT_SETTINGS, ...(d.settings||{})}; return d;
+}
+function lsSave(d){ try{ localStorage.setItem(LS_KEY, JSON.stringify(d)); }catch(e){} }
+
+const API = {
+  async call(action, payload={}){
+    if(SCRIPT_URL){
+      const res = await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({action, ...payload})});
+      const j = await res.json();
+      if(j.error) throw new Error(j.error);
+      return j;
+    }
+    return localApi(action, payload);
+  }
+};
+
+// 테스트 모드용 — Code.gs와 같은 규칙
+function localApi(action, p){
+  const d = lsLoad(), st = d.settings;
+  if(['saveRoster','adminUpdate','adminDelete','setSetting','adminObsUpdate','adminLessonObs','reset'].includes(action) && !pwOk(p.pw)) throw new Error('관리자 비밀번호 오류');
+  if(action==='checkPw') return {ok: pwOk(p.pw)};
+  const t = nowStr();
+  switch(action){
+    case 'load': return {roster:d.roster, peer:d.peer, open:d.open, obs:d.obs, settings:st};
+    case 'submit': {
+      if(st.obsOpen || st.inputState!=='open') throw new Error('지금은 계획 입력 기간이 아닙니다.');
+      if(p.type==='peer'){ const ex=findExclude(p.rec.date, st.excludeDates); if(ex) throw new Error('수업공개를 할 수 없는 날짜입니다: '+ex.reason); }
+      if(p.type==='open'){ const rr=d.roster.find(r=>r.subj===p.rec.subj && normName(r.name)===normName(p.rec.name)); if(!rr||!rr.openTarget) throw new Error('전교사 공개수업 대상이 아닙니다.'); }
+      const box=d[p.type], k=keyOf(p.rec.subj,p.rec.name), old=box[k];
+      if(old && !p.force) return {status:'exists', existing:old};
+      box[k] = {...p.rec, key:k, createdAt:old?old.createdAt:t, updatedAt:t, revisions:old?(old.revisions||0)+1:0, adminEdited:old?!!old.adminEdited:false,
+        history: old?[...(old.history||[]),{at:t,by:'교사',before:strip(old)}]:[]};
+      lsSave(d); return {status:'ok', overwritten:!!old};
+    }
+    case 'submitObs': {
+      if(!st.obsOpen || st.obsLock) throw new Error('지금은 수업 참관 신청 기간이 아닙니다.');
+      const subj=p.rec.subj, name=normName(p.rec.name), me=keyOf(subj,name);
+      if(!d.roster.some(r=>r.subj===subj && normName(r.name)===name)) throw new Error('이름이 정확하지 않습니다.');
+      const selP=p.rec.peer||[], selO=p.rec.open||[];
+      if(selP.length!==Number(st.peerObsCount) || selO.length!==Number(st.openObsCount)) throw new Error(`동료장학 ${st.peerObsCount}개, 전교사 공개 ${st.openObsCount}개를 정확히 선택해야 합니다.`);
+      const times={}; const addT=(tt,l)=>{ if(times[tt]) throw new Error('시간이 겹칩니다: '+l); times[tt]=l; };
+      if(d.peer[me]) addT(d.peer[me].date+'#'+parseInt(d.peer[me].period),'본인 수업');
+      if(d.open[me] && st.openDate) addT(st.openDate+'#'+parseInt(d.open[me].period),'본인 수업');
+      const fails=[];
+      selP.forEach(k=>{ const L=d.peer[k]; if(L){ const bz=ttBusyAt(st,subj,name,L.date,L.period); if(bz) throw new Error('본인 수업 시간입니다('+bz+'): '+L.name); } if(!L) throw new Error('없어진 수업이 있습니다.'); if(k===me) throw new Error('본인 수업은 참관할 수 없습니다.');
+        addT(L.date+'#'+parseInt(L.period), L.name);
+        const n=Object.keys(d.obs).filter(o=>o!==me && d.obs[o].peer.includes(k)).length; if(n>=peerCap(L.subj,subj)) fails.push(`${L.subj} ${L.name}(${L.course})`); });
+      selO.forEach(k=>{ const L=d.open[k]; if(L){ const bz=ttBusyAt(st,subj,name,st.openDate,L.period); if(bz) throw new Error('본인 수업 시간입니다('+bz+'): '+L.name); } if(!L) throw new Error('없어진 수업이 있습니다.'); if(k===me) throw new Error('본인 수업은 참관할 수 없습니다.');
+        if(st.openDate) addT(st.openDate+'#'+parseInt(L.period), L.name);
+        const n=Object.keys(d.obs).filter(o=>o!==me && d.obs[o].open.includes(k)).length; if(n>=OPEN_CAP) fails.push(`${L.subj} ${L.name}(${L.course})`); });
+      if(fails.length) return {status:'full', full:fails};
+      const old=d.obs[me];
+      if(old && !p.force) return {status:'exists', existing:old};
+      d.obs[me]={key:me, subj, name, peer:selP, open:selO, createdAt:old?old.createdAt:t, updatedAt:t, revisions:old?old.revisions+1:0, adminEdited:old?!!old.adminEdited:false,
+        history: old?[...(old.history||[]),{at:t,by:'교사',before:strip(old)}]:[]};
+      lsSave(d); return {status:'ok', overwritten:!!old};
+    }
+    case 'adminUpdate': {
+      const box=d[p.type], old=box[p.key], nk=keyOf(p.rec.subj,p.rec.name);
+      if(nk!==p.key && box[nk]) throw new Error('같은 교과·성명의 자료가 이미 있습니다.');
+      const rec={...old, ...p.rec, key:nk, updatedAt:t, adminEdited:true, history:[...(old.history||[]),{at:t,by:'관리자',before:strip(old)}]};
+      delete box[p.key]; box[nk]=rec; lsSave(d); return {status:'ok'};
+    }
+    case 'adminObsUpdate': {
+      const old=d.obs[p.key];
+      d.obs[p.key] = old ? {...old, peer:p.rec.peer, open:p.rec.open, updatedAt:t, adminEdited:true, history:[...(old.history||[]),{at:t,by:'관리자',before:strip(old)}]}
+        : {key:p.key, subj:p.rec.subj, name:p.rec.name, peer:p.rec.peer, open:p.rec.open, createdAt:t, updatedAt:t, revisions:0, adminEdited:true, history:[]};
+      lsSave(d); return {status:'ok'};
+    }
+    case 'adminLessonObs': {
+      const want = new Set(p.people.map(x=>x.key));
+      const keys = new Set([...Object.keys(d.obs), ...want]);
+      keys.forEach(k=>{ const o=d.obs[k]; const has=o&&o[p.type].includes(p.lkey), should=want.has(k);
+        if(has===should) return;
+        if(o){ d.obs[k]={...o, [p.type]: should?[...o[p.type],p.lkey]:o[p.type].filter(x=>x!==p.lkey), updatedAt:t, adminEdited:true, history:[...(o.history||[]),{at:t,by:'관리자',before:strip(o)}]}; }
+        else { const pp=p.people.find(x=>x.key===k); d.obs[k]={key:k, subj:pp.subj, name:pp.name, peer:p.type==='peer'?[p.lkey]:[], open:p.type==='open'?[p.lkey]:[], createdAt:t, updatedAt:t, revisions:0, adminEdited:true, history:[]}; } });
+      lsSave(d); return {status:'ok'};
+    }
+    case 'adminDelete': { delete d[p.type][p.key]; lsSave(d); return {status:'ok'}; }
+    case 'reset': { const w=p.what||[];
+      if(w.includes('peer')) d.peer={}; if(w.includes('open')) d.open={}; if(w.includes('obs')) d.obs={}; if(w.includes('roster')) d.roster=[];
+      if(w.includes('timetable')){ st.timetable=[]; st.ttSwap=[]; }
+      if(w.includes('dates')){ st.openDate=''; st.excludeDates=[]; st.refDates=[]; }
+      if(w.includes('phase')){ st.inputState='before'; st.obsOpen=false; st.obsLock=false; }
+      lsSave(d); return {status:'ok', backups:[]}; }
+    case 'saveRoster': { d.roster=p.roster; lsSave(d); return {status:'ok'}; }
+    case 'setSetting': {
+      if(p.k==='obsOpen' && p.v===true && st.inputState!=='closed') throw new Error('계획 입력을 먼저 마감해야 수업 참관을 시작할 수 있습니다.');
+      if(p.k==='inputState' && p.v==='open' && st.obsOpen) throw new Error('수업 참관을 먼저 꺼야 입력을 다시 열 수 있습니다.');
+      st[p.k]=p.v; lsSave(d); return {status:'ok'};
+    }
+  }
+  throw new Error('알 수 없는 요청');
+}
+
+/* =========================================================
+   상태 / 공용 UI
+   ========================================================= */
+let S = {roster:[], peer:{}, open:{}, obs:{}, settings:{...DEFAULT_SETTINGS}};
+let isAdmin=false, me=null, mode=null, adminPw='';
+let sel = {peer:[], open:[]};          // 참관 선택(아직 신청 전)
+let lastLoad = null;
+const $ = id=>document.getElementById(id);
+const esc = s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.style.display='block'; clearTimeout(toast._t); toast._t=setTimeout(()=>t.style.display='none',2800); }
+function openModal(html, wide){ $('modalBox').className='modal'+(wide?' wide':''); $('modalBox').innerHTML=html; $('modal').classList.add('on'); }
+function closeModal(){ $('modal').classList.remove('on'); }
+const modalOpen = ()=>$('modal').classList.contains('on');
+function alertModal(title, body){ openModal(`<h3>${title}</h3><div>${body}</div><div class="row" style="margin-top:12px"><button class="pri right" onclick="closeModal()">확인</button></div>`); }
+$('modal').addEventListener('click',e=>{ if(e.target.id==='modal') closeModal(); });
+
+function dateInfo(s){ if(!s) return {m:'',d:'',dow:''}; const [y,m,d]=s.split('-').map(Number); const dt=new Date(y,m-1,d); return {m:m+'월', d:d, dow:DOW[dt.getDay()]+'요일'}; }
+function fmtDate(s){ if(!s) return ''; const i=dateInfo(s); return `${i.m} ${i.d}일(${i.dow[0]})`; }
+function fmtRange(a,b){ return (!b||b===a) ? fmtDate(a) : `${fmtDate(a)} ~ ${fmtDate(b)}`; }
+const perNum = p=>parseInt(p)||'';
+function subjects(){ const set=[]; S.roster.forEach(r=>{ if(r.subj && !set.includes(r.subj)) set.push(r.subj); }); return set.length?set:DEFAULT_SUBJECTS; }
+function rosterFind(subj,name){ const n=normName(name); return S.roster.find(r=>r.subj===subj && normName(r.name)===n); }
+const rosterHas = (s,n)=>!!rosterFind(s,n);
+const isOpenTarget = (s,n)=>{ const r=rosterFind(s,n); return !!(r&&r.openTarget); };
+function fillSelect(el, opts, placeholder){ const cur=el.value;
+  el.innerHTML = `<option value="">${placeholder}</option>` + opts.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('');
+  if(opts.map(String).includes(cur)) el.value=cur; }
+
+// 수업 목록 / 참관자
+function lessonsOf(type){
+  const list = Object.values(S[type]||{});
+  return sortList(list, type==='open'?'subj':'date');
+}
+function sortList(list, mode){
+  const so = subjects();
+  const bySubj=(a,b)=> (so.indexOf(a.subj)-so.indexOf(b.subj)) || a.name.localeCompare(b.name,'ko');
+  const byDate=(a,b)=> (a.date||'').localeCompare(b.date||'') || ((parseInt(a.period)||0)-(parseInt(b.period)||0)) || bySubj(a,b);
+  if(mode==='subj') return list.sort(bySubj);
+  if(mode==='upd') return list.sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
+  return list.sort(byDate);
+}
+function observersOf(type, lkey, excludeKey){
+  return Object.values(S.obs||{}).filter(o=>o.key!==excludeKey && (o[type]||[]).includes(lkey))
+    .sort((a,b)=>(a.createdAt||'').localeCompare(b.createdAt||''));
+}
+const timeOf = (type,L)=> (type==='peer'?L.date:S.settings.openDate)+'#'+parseInt(L.period);
+function lessonText(type, L){
+  const d = type==='peer'?L.date:S.settings.openDate;
+  return `${d?fmtDate(d)+' ':''}${perNum(L.period)}교시 · ${L.subj} ${L.name} · ${L.course}`;
+}
+
+function semLabel(){ const st=S.settings; return `${st.year}학년도 ${st.semester}학기`; }
+function applyTitles(){
+  const st=S.settings;
+  $('appTitle').textContent = `${semLabel()} 동료장학 수업공개`;
+  document.title = `${st.semester}학기 동료장학 수업공개`;
+  document.querySelectorAll('.semTxt').forEach(e=>e.textContent=`${st.semester}학기`);
+  document.querySelectorAll('.print-title[data-t]').forEach(e=>e.textContent=`${semLabel()} ${e.dataset.t}`);
+}
+async function reload(silent){
+  try{ S = await API.call('load'); lastLoad=new Date(); }
+  catch(e){ if(!silent) toast('불러오기 실패: '+e.message); }
+  S.obs = S.obs||{}; S.settings = {...DEFAULT_SETTINGS, ...(S.settings||{})};
+  renderTeacher(); if(isAdmin) renderAdmin();
+}
+
+/* =========================================================
+   일반 모드
+   ========================================================= */
+function phaseOf(st){
+  if(st.obsOpen) return st.obsLock?'obsClosed':'obs';
+  return st.inputState||'before';
+}
+const PHASE_LABEL = {before:'계획 입력 개시 전', open:'계획 입력 중', closed:'계획 입력 마감', obs:'수업 참관 신청 중', obsClosed:'수업 참관 신청 마감'};
+
+function renderTeacher(){
+  applyTitles();
+  const st=S.settings, ph=phaseOf(st);
+  const newMode = (ph==='obs'||ph==='obsClosed') ? 'obs' : 'input';
+  if(mode && newMode!==mode && me) resetIdentity();
+  mode = newMode;
+  const active = (ph==='open' || ph==='obs');
+
+  fillSelect($('id_subj'), subjects(), '교과 선택');
+  ['p','o'].forEach(px=>fillSelect($(px+'_period'), PERIODS.map(n=>n+'교시'), '교시 선택'));
+
+  // 단계 안내
+  const msg = {
+    before:'<div class="notice warn">아직 수업공개 계획 입력 기간이 아닙니다. 담당자가 입력을 시작하면 이용할 수 있습니다.</div>',
+    closed:'<div class="notice bad">수업공개 계획 입력이 마감되었습니다. 수업 참관 신청이 열리면 다시 안내해 드립니다.</div>',
+    obsClosed:'<div class="notice bad">수업 참관 신청이 마감되었습니다.</div>',
+    open:'', obs:''
+  }[ph];
+  $('phaseNotice').innerHTML = msg;
+  $('idTitle').textContent = mode==='obs' ? '③ 수업 참관 신청 — 선생님 정보 확인' : '선생님 정보 확인';
+  if(!active && me) resetIdentity();
+  $('id_subj').disabled = !active || !!me; $('id_name').disabled = !active; $('id_ok').disabled = !active;
+  if(!me) $('idState').innerHTML = active
+    ? (mode==='obs' ? '교과를 고르고 성명을 입력한 뒤 <b>확인</b>을 누르면 참관할 수업을 고를 수 있습니다. 명단에 있는 이름과 정확히 같아야 합니다.'
+                    : '교과와 성명을 입력하고 <b>확인</b>을 누르면 입력 화면이 열립니다.')
+    : '';
+
+  // 입력 화면 부가 정보
+  const refs=[...(st.refDates||[])].sort((a,b)=>a.start.localeCompare(b.start));
+  $('refBox').innerHTML = refs.length ? `<div class="refbox"><h3>📌 날짜 선택 전 참고하세요</h3><ul>${refs.map(r=>`<li><span class="d">${fmtRange(r.start,r.end)}</span> ${esc(r.note)}</li>`).join('')}</ul></div>` : '';
+  const exs=[...(st.excludeDates||[])].sort((a,b)=>a.start.localeCompare(b.start));
+  $('exBox').innerHTML = exs.length ? `<div class="exbox"><b>수업공개 불가:</b> ${exs.map(x=>`${fmtRange(x.start,x.end)} ${esc(x.reason)}`).join(' · ')}</div>` : '';
+  const od=st.openDate, odi=dateInfo(od);
+  $('openDateBox').innerHTML = od ? `전교사 대상 수업공개 날짜: <b>${odi.m} ${odi.d}일 ${odi.dow}</b> <span class="hint">(담당자가 정한 날짜입니다)</span>` : `<span class="hint">전교사 대상 수업공개 날짜는 담당자가 정해 안내할 예정입니다.</span>`;
+
+  if(me && mode==='obs' && !rosterHas(me.subj, me.name)){
+    resetIdentity(); alertModal('명단이 바뀌었습니다', '<p>담당자가 명단을 새로 올렸거나 초기화해서 선생님 정보를 다시 확인해야 합니다. 교과와 성명을 다시 입력해 주세요.</p>');
+  }
+  if(me && mode==='obs'){ ['peer','open'].forEach(t=>{ sel[t]=sel[t].filter(k=>S[t][k]); }); }
+  if(me){ if(mode==='input') applyInputIdentity(false); else renderObs(); }
+  $('obsBar').classList.toggle('hidden', !(me && mode==='obs'));
+  document.body.classList.toggle('has-bar', !!(me && mode==='obs'));
+}
+
+function confirmIdentity(){
+  const subj=$('id_subj').value, name=normName($('id_name').value);
+  if(!subj || !name){ toast('교과와 성명을 모두 입력해 주세요.'); return; }
+  if(mode==='obs' && !rosterHas(subj,name)){
+    alertModal('이름이 정확하지 않습니다.', `<p><b>${esc(subj)}</b> 명단에서 <b>${esc(name)}</b> 선생님을 찾지 못했습니다.<br>교과와 성명을 다시 확인해 주세요.</p>`);
+    return;
+  }
+  me = {subj, name, key:keyOf(subj,name)};
+  $('id_name').value=name; $('id_subj').disabled=true; $('id_name').readOnly=true;
+  $('id_ok').classList.add('hidden'); $('id_reset').classList.remove('hidden');
+  if(mode==='input'){ $('inputBody').classList.remove('hidden'); applyInputIdentity(true); showTab('peer'); }
+  else {
+    const o=S.obs[me.key]; sel = {peer:o?[...o.peer]:[], open:o?[...o.open]:[]};
+    $('obsBody').classList.remove('hidden'); fillSelect($('obsFilter'), subjects(), '전체 교과');
+    renderTeacher();
+  }
+}
+function resetIdentity(){
+  me=null; sel={peer:[],open:[]};
+  $('id_subj').disabled=false; $('id_name').readOnly=false; $('id_name').value='';
+  $('id_ok').classList.remove('hidden'); $('id_reset').classList.add('hidden');
+  $('inputBody').classList.add('hidden'); $('obsBody').classList.add('hidden');
+  $('obsBar').classList.add('hidden'); document.body.classList.remove('has-bar');
+  clearForm('p'); clearForm('o');
+}
+$('id_ok').onclick=confirmIdentity;
+$('id_name').addEventListener('keydown',e=>{ if(e.key==='Enter') confirmIdentity(); });
+$('id_reset').onclick=()=>{ resetIdentity(); renderTeacher(); };
+
+/* ---------- ① ② 계획 입력 ---------- */
+function showTab(t){
+  document.querySelectorAll('#tTabs .tab').forEach(x=>x.classList.toggle('on',x.dataset.t===t));
+  ['peer','open'].forEach(k=>$('t-'+k).classList.toggle('hidden', k!==t));
+}
+document.querySelectorAll('#tTabs .tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.t)));
+
+function applyInputIdentity(fill){
+  me.openTarget = isOpenTarget(me.subj, me.name);
+  $('tabOpen').classList.toggle('hidden', !me.openTarget);
+  if(!me.openTarget && !$('t-open').classList.contains('hidden')) showTab('peer');
+  $('idState').innerHTML = `<b>${esc(me.subj)} ${esc(me.name)}</b> 선생님` +
+    (me.openTarget ? ' · <span class="badge b-op">전교사 대상 수업공개 대상</span> ② 탭도 입력해 주세요.' : '') +
+    (!rosterHas(me.subj,me.name) && S.roster.length ? ' <span class="badge b-out">명단에서 찾지 못함</span> <span class="hint">교과·성명을 다시 확인해 주세요.</span>' : '');
+  const p=S.peer[me.key], o=S.open[me.key];
+  $('peerExisting').innerHTML = p ? `<div class="notice info">이미 제출한 기록이 있어 불러왔습니다 (최종 ${esc(p.updatedAt)}). 고쳐서 다시 제출하면 덮어씁니다.</div>` : '';
+  $('openExisting').innerHTML = o ? `<div class="notice info" style="background:#fff;color:var(--op-pri)">이미 제출한 기록이 있어 불러왔습니다 (최종 ${esc(o.updatedAt)}). 고쳐서 다시 제출하면 덮어씁니다.</div>` : '';
+  if(fill){
+    clearForm('p'); clearForm('o');
+    if(p){ $('p_date').value=p.date; $('p_period').value=p.period; $('p_place').value=p.place; $('p_course').value=p.course; $('p_topic').value=p.topic; onDateChange(true); }
+    if(o){ $('o_period').value=o.period; $('o_place').value=o.place; $('o_course').value=o.course; $('o_topic').value=o.topic; }
+  }
+}
+function onDateChange(silent){
+  const v=$('p_date').value, ex=findExclude(v, S.settings.excludeDates);
+  if(ex){
+    $('p_date').value=''; $('p_dow').textContent='';
+    $('p_dateErr').textContent=`${fmtDate(v)}은 선택할 수 없습니다 — ${ex.reason}`;
+    if(!silent) alertModal('선택할 수 없는 날짜입니다', `<p><b>${fmtDate(v)}</b>은 수업공개를 할 수 없는 날짜입니다.<br>이유: <b>${esc(ex.reason)}</b>${ex.end&&ex.end!==ex.start?`<br><span class="hint">(${fmtRange(ex.start,ex.end)} 기간)</span>`:''}<br><br>다른 날짜를 골라 주세요.</p>`);
+    return;
+  }
+  $('p_dateErr').textContent=''; $('p_dow').textContent = v?fmtDate(v):'';
+}
+$('p_date').addEventListener('change',()=>onDateChange(false));
+function readForm(type){
+  const px = type==='open'?'o':'p';
+  const r = {subj:me.subj, name:me.name, period:$(px+'_period').value, place:$(px+'_place').value.trim(), course:$(px+'_course').value.trim(), topic:$(px+'_topic').value.trim()};
+  if(type==='peer') r.date=$('p_date').value;
+  return {r, miss: fieldsOf(type).filter(([k])=>!r[k]).map(([,l])=>l)};
+}
+function clearForm(px){
+  ['place','course','topic'].forEach(k=>$(px+'_'+k).value=''); $(px+'_period').value='';
+  if(px==='p'){ $('p_date').value=''; $('p_dow').textContent=''; $('p_dateErr').textContent=''; }
+}
+function compareHtml(type, oldR, newR){
+  const rows = fieldsOf(type).filter(([k])=>k!=='subj'&&k!=='name').map(([k,l])=>{
+    const a = k==='date'?fmtDate(oldR[k]):oldR[k], b = k==='date'?fmtDate(newR[k]):newR[k];
+    return `<tr class="${String(a??'')!==String(b??'')?'chg':''}"><th>${l}</th><td>${esc(a)}</td><td>${esc(b)}</td></tr>`; }).join('');
+  return `<table class="cmp"><tr><th></th><th>이전 기록</th><th>새로 입력</th></tr>${rows}</table>`;
+}
+async function submitForm(type){
+  if(!me) return;
+  if(type==='open' && !isOpenTarget(me.subj,me.name)){ alertModal('전교사 공개수업 대상이 아닙니다','<p>명단에서 대상으로 지정된 선생님만 입력할 수 있습니다.</p>'); return; }
+  const {r, miss} = readForm(type);
+  if(miss.length){ toast('다음 항목을 입력해 주세요: '+miss.join(', ')); return; }
+  if(type==='peer'){ const ex=findExclude(r.date,S.settings.excludeDates); if(ex){ alertModal('선택할 수 없는 날짜입니다', '<p>'+esc(ex.reason)+'</p>'); return; } }
+  const btn=$(type==='open'?'o_submit':'p_submit'); btn.disabled=true;
+  try{
+    const res = await API.call('submit',{type, rec:r, force:false});
+    if(res.status==='exists'){
+      openModal(`<h3>이전 기록에 덮어씁니다</h3>
+        <p><b>${esc(r.subj)} ${esc(r.name)}</b> 선생님 이름으로 이미 제출한 ${type==='open'?'전교사 공개':'동료장학'} 기록이 있습니다. <b>확인</b>을 누르면 이전 기록이 새 내용으로 바뀝니다.</p>
+        ${compareHtml(type, res.existing, r)}<p class="hint">바뀐 칸은 노란색으로 표시됩니다. 덮어쓴 사실은 관리자 화면에 남습니다.</p>
+        <div class="row"><button id="mCancel">취소</button><button class="pri right" id="mOk">확인</button></div>`);
+      $('mCancel').onclick=()=>{ closeModal(); btn.disabled=false; };
+      $('mOk').onclick=async()=>{ $('mOk').disabled=true;
+        try{ await API.call('submit',{type, rec:r, force:true}); await reload(); doneSubmit(true); }catch(e){ closeModal(); toast('제출 실패: '+e.message); }
+        btn.disabled=false; };
+      return;
+    }
+    await reload(); doneSubmit(false);
+  }catch(e){ toast('제출 실패: '+e.message); }
+  btn.disabled=false;
+}
+function doneSubmit(over){ alertModal(over?'수정되었습니다':'제출되었습니다', '<p>'+(over?'이전 기록을 새 내용으로 바꿨습니다.':'입력해 주셔서 감사합니다.')+' 고칠 내용이 있으면 같은 교과·성명으로 다시 제출하시면 됩니다.</p>'); }
+$('p_submit').onclick=()=>submitForm('peer');
+$('o_submit').onclick=()=>submitForm('open');
+
+/* ---------- ③ 수업 참관 ---------- */
+// 수업 한 줄의 상태 (나 기준)
+function rowState(type, L){
+  const others = observersOf(type, L.key, me.key);
+  const selected = sel[type].includes(L.key);
+  const cap = capOf(type, L, me.subj);
+  const n = others.length + (selected?1:0);
+  if(L.key===me.key) return {s:'mine', reason:'본인 수업입니다.', others, n, cap};
+  if(selected) return {s: others.length>=cap ? 'over':'sel', others, n, cap, reason: others.length>=cap?'그 사이 정원이 찼습니다. 선택을 취소하고 다른 수업을 골라 주세요.':''};
+  if(others.length>=cap){
+    const why = (type==='peer' && others.length>=PEER_CAP && L.subj!==me.subj && others.length<PEER_CAP_SAME)
+      ? `참관 인원 ${PEER_CAP}명이 모두 찼습니다. (5번째 자리는 ${L.subj} 선생님만 신청할 수 있습니다.)`
+      : `참관 인원이 모두 찼습니다 (${others.length}/${type==='open'?OPEN_CAP:others.length>=PEER_CAP_SAME?PEER_CAP_SAME:PEER_CAP}명).`;
+    return {s:'full', reason:why, others, n, cap};
+  }
+  const bz = ttBusyAt(S.settings, me.subj, me.name, type==='peer'?L.date:S.settings.openDate, L.period);
+  if(bz) return {s:'conflict', reason:`본인 수업 시간입니다 (시간표: ${bz}).`, others, n, cap};
+  const t = timeOf(type,L);
+  const busy = myBusy(type, L.key);
+  if(busy[t]) return {s:'conflict', reason:`시간이 겹칩니다 — ${busy[t]}`, others, n, cap};
+  const need = type==='peer'?S.settings.peerObsCount:S.settings.openObsCount;
+  if(sel[type].length>=need) return {s:'limit', reason:`${type==='peer'?'동료장학':'전교사 공개'} 수업은 ${need}개까지 선택합니다. 다른 수업을 고르려면 먼저 선택을 취소해 주세요.`, others, n, cap};
+  return {s:'ok', others, n, cap};
+}
+function myBusy(exType, exKey){
+  const b={};
+  const pm=S.peer[me.key]; if(pm) b[timeOf('peer',pm)]='본인 동료장학 수업';
+  const om=S.open[me.key]; if(om && S.settings.openDate) b[timeOf('open',om)]='본인 전교사 공개 수업';
+  ['peer','open'].forEach(t=>sel[t].forEach(k=>{ if(t===exType && k===exKey) return; const L=S[t][k]; if(L) b[timeOf(t,L)]='선택한 수업 ('+L.subj+' '+L.name+')'; }));
+  return b;
+}
+function cntHtml(type, st, L){
+  if(type==='open') return `<span class="cnt ${st.n>=OPEN_CAP?'full':'ok'}">${st.n}/${OPEN_CAP}</span>`;
+  const base = `<span class="cnt ${st.n>=PEER_CAP?'full':'ok'}">${Math.min(st.n,PEER_CAP_SAME)}/${PEER_CAP}</span>`;
+  if(st.n===PEER_CAP && L.subj===me.subj && L.key!==me.key) return base+' <span class="badge b-op">동교과 +1 가능</span>';
+  if(st.n>PEER_CAP) return base+' <span class="hint">(동교과 1명 추가)</span>';
+  return base;
+}
+function pickBtn(type, L, st){
+  if(st.s==='mine') return '<span class="hint">내 수업</span>';
+  const on = st.s==='sel'||st.s==='over';
+  const label = on?'✓ 선택됨': st.s==='full'?'마감': '선택';
+  return `<button class="pick ${on?'on':''}" data-pick="${type}" data-k="${esc(L.key)}" ${st.s==='full'||st.s==='conflict'||st.s==='limit'?'data-blocked="1"':''}>${label}</button>`;
+}
+function renderObs(){
+  if(!me || mode!=='obs') return;
+  const st=S.settings, locked=!!st.obsLock;
+  const ex = S.obs[me.key];
+  $('idState').innerHTML = `<b>${esc(me.subj)} ${esc(me.name)}</b> 선생님 · 동료장학 수업 <b>${st.peerObsCount}개</b>, 전교사 공개 수업 <b>${st.openObsCount}개</b>를 골라 주세요.`;
+  $('obsExisting').innerHTML = ex ? `<div class="notice ok">참관 신청이 완료된 상태입니다 (최종 ${esc(ex.updatedAt)}). 바꾸려면 선택을 고친 뒤 다시 <b>참관 신청 완료</b>를 누르세요. 이전 신청을 덮어씁니다.</div>` : '';
+  // 동료장학 표
+  const f=$('obsFilter').value, onlyAvail=$('obsAvail').checked;
+  let rows = lessonsOf('peer').map(L=>({L, st:rowState('peer',L)}));
+  if(f) rows = rows.filter(x=>x.L.subj===f);
+  if(onlyAvail) rows = rows.filter(x=>x.st.s==='ok'||x.st.s==='sel'||x.st.s==='over');
+  const head = `<tr><th>선택</th><th>연번</th><th>교과</th><th>교사</th><th>월</th><th>일</th><th>요일</th><th>교시</th><th>장소</th><th>과목</th><th>과목 및 주제</th><th>참관교사 1</th><th>참관교사 2</th><th>참관교사 3</th><th>참관교사 4</th><th>5 (동교과)</th><th>현황</th></tr>`;
+  $('obsPeerTable').innerHTML = head + (rows.length ? rows.map(({L,st:s},i)=>{
+    const di=dateInfo(L.date);
+    const names = s.others.map(o=>o.name);
+    const selected = s.s==='sel'||s.s==='over';
+    const slots = []; for(let j=0;j<5;j++){
+      if(j<names.length) slots.push(`<td class="obsname">${esc(names[j])}</td>`);
+      else if(j===names.length && selected) slots.push(`<td class="obsname me">${esc(me.name)}</td>`);
+      else slots.push('<td class="obsname"></td>');
+    }
+    const cls = s.s==='mine'?'mine':selected?'sel':(s.s==='full'||s.s==='conflict')?'dis':'';
+    return `<tr class="${cls}" title="${esc(s.reason||'')}"><td>${pickBtn('peer',L,s)}</td><td>${i+1}</td><td>${esc(L.subj)}</td><td>${esc(L.name)}</td><td>${di.m}</td><td>${di.d}</td><td>${di.dow}</td><td>${perNum(L.period)}</td><td>${esc(L.place)}</td><td>${esc(L.course)}</td><td class="wrap">${esc(L.topic)}</td>${slots.join('')}<td>${cntHtml('peer',s,L)}</td></tr>`;
+  }).join('') : `<tr><td colspan="17" style="text-align:center;color:var(--sub);padding:20px">표시할 수업이 없습니다.</td></tr>`);
+  // 전교사 표
+  const ol = lessonsOf('open');
+  $('obsOpenCard').classList.toggle('hidden', !ol.length && !st.openObsCount);
+  const od=st.openDate, odTxt = od?`${od.replace(/-/g,'.')} ${dateInfo(od).dow}`:'미정';
+  $('obsOpenTable').innerHTML = `<tr><th>선택</th><th>연번</th><th>전문적 학습공동체</th><th>교사</th><th>날짜</th><th>교시</th><th>장소</th><th>과목</th><th>단원 및 주제</th><th>참관교사</th><th>현황</th></tr>` +
+    (ol.length ? ol.map((L,i)=>{ const s=rowState('open',L); const selected=s.s==='sel'||s.s==='over';
+      const names = s.others.map(o=>esc(o.name)).join(', ') + (selected?`${s.others.length?', ':''}<b style="color:var(--warn)">${esc(me.name)}</b>`:'');
+      const cls = s.s==='mine'?'mine':selected?'sel':(s.s==='full'||s.s==='conflict')?'dis':'';
+      return `<tr class="${cls}" title="${esc(s.reason||'')}"><td>${pickBtn('open',L,s)}</td><td>${i+1}</td><td>${esc(L.subj)}</td><td>${esc(L.name)}</td><td>${odTxt}</td><td>${perNum(L.period)}교시</td><td>${esc(L.place)}</td><td>${esc(L.course)}</td><td class="wrap">${esc(L.topic)}</td><td class="wrap" style="min-width:200px">${names}</td><td>${cntHtml('open',s,L)}</td></tr>`;
+    }).join('') : `<tr><td colspan="11" style="text-align:center;color:var(--sub);padding:20px">전교사 공개 수업이 없습니다.</td></tr>`);
+  // 하단 바
+  const np=sel.peer.length, no=sel.open.length, NP=Number(st.peerObsCount), NO=Number(st.openObsCount);
+  const done = np===NP && no===NO;
+  $('obsProg').innerHTML = `동료장학 <b class="${np===NP?'done':''}">${np}/${NP}</b> · 전교사 공개 <b class="${no===NO?'done':''}">${no}/${NO}</b> ${done?'<span class="badge b-new">모두 선택함</span>':'<span class="hint">정해진 개수를 모두 골라야 신청할 수 있습니다.</span>'}`;
+  $('obsSubmit').disabled = !done || locked;
+  $('obsUpdated').textContent = lastLoad ? `실시간 현황 · ${POLL_OBS_MS/1000}초마다 자동 갱신 · 마지막 ${lastLoad.toTimeString().slice(0,8)}` : '';
+}
+['obsFilter','obsAvail'].forEach(id=>$(id).addEventListener('change',renderObs));
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('button[data-pick]'); if(!b || !me) return;
+  const type=b.dataset.pick, k=b.dataset.k;
+  if(sel[type].includes(k)){ sel[type]=sel[type].filter(x=>x!==k); renderObs(); return; }
+  // 고르기 직전에 최신 현황으로 다시 확인 (마지막 갱신 후 3초 이상 지났으면)
+  if(!lastLoad || Date.now()-lastLoad > 3000){ b.disabled=true; b.textContent='확인 중…'; await reload(true); if(!me) return; }
+  const L=S[type][k]; if(!L){ renderObs(); return; }
+  if(sel[type].includes(k)) return;
+  const st=rowState(type,L);
+  if(st.s!=='ok'){ alertModal('선택할 수 없습니다', `<p><b>${esc(lessonText(type,L))}</b></p><p>${esc(st.reason)}</p>`); return; }
+  sel[type].push(k); renderObs();
+});
+function selListHtml(rec){
+  const li=(t,k)=>{ const L=S[t][k]; return `<li>${L?esc(lessonText(t,L)):'(삭제된 수업)'}</li>`; };
+  return `<div style="font-size:13.5px"><b>동료장학</b><ul style="margin:4px 0 8px">${(rec.peer||[]).map(k=>li('peer',k)).join('')||'<li>없음</li>'}</ul><b>전교사 공개</b><ul style="margin:4px 0">${(rec.open||[]).map(k=>li('open',k)).join('')||'<li>없음</li>'}</ul></div>`;
+}
+$('obsSubmit').onclick=async()=>{
+  const rec={subj:me.subj, name:me.name, peer:[...sel.peer], open:[...sel.open]};
+  const btn=$('obsSubmit'); btn.disabled=true;
+  const handle = async(res, force)=>{
+    if(res.status==='full'){
+      await reload(true);
+      alertModal('정원이 찬 수업이 있습니다', `<p>그 사이 다른 선생님이 먼저 신청해서 아래 수업의 자리가 없습니다. 선택을 바꿔 다시 신청해 주세요.</p><ul>${res.full.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul>`);
+      return;
+    }
+    if(res.status==='exists'){
+      openModal(`<h3>이전 기록에 덮어씁니다</h3><p>이미 참관 신청한 기록이 있습니다. <b>확인</b>을 누르면 이전 신청이 새 선택으로 바뀝니다.</p>
+        <table class="cmp"><tr><th>이전 신청</th><th>새로 선택</th></tr><tr><td>${selListHtml(res.existing)}</td><td class="chg">${selListHtml(rec)}</td></tr></table>
+        <div class="row"><button id="mCancel">취소</button><button class="pri right" id="mOk">확인</button></div>`, true);
+      $('mCancel').onclick=closeModal;
+      $('mOk').onclick=async()=>{ $('mOk').disabled=true;
+        try{ const r2=await API.call('submitObs',{rec, force:true}); closeModal(); await handle(r2,true); }catch(e){ closeModal(); toast('신청 실패: '+e.message); } };
+      return;
+    }
+    await reload(true);
+    alertModal(force?'참관 신청을 수정했습니다':'참관 신청이 완료되었습니다', selListHtml(rec)+'<p class="hint">바꾸려면 같은 교과·성명으로 다시 들어와 선택을 고친 뒤 신청하면 됩니다.</p>');
+  };
+  try{ await handle(await API.call('submitObs',{rec, force:false}), false); }
+  catch(e){ alertModal('신청할 수 없습니다', '<p>'+esc(e.message)+'</p>'); }
+  renderObs();
+};
+// 실시간 갱신
+let polling=false;
+async function poll(force){
+  if(polling || isAdmin || modalOpen() || document.visibilityState!=='visible') return;
+  if(!$('loginView').classList.contains('hidden')) return;
+  const iv = (me && mode==='obs') ? POLL_OBS_MS : POLL_IDLE_MS;
+  if(!force && lastLoad && Date.now()-lastLoad < iv) return;
+  polling=true; try{ await reload(true); } finally{ polling=false; }
+}
+setInterval(()=>poll(false), 2000);
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') poll(true); });
+$('obsRefresh').onclick=async()=>{ $('obsRefresh').disabled=true; await reload(true); $('obsRefresh').disabled=false; toast('참관 현황을 새로 불러왔습니다'); };
+
+/* =========================================================
+   관리자
+   ========================================================= */
+$('btnAdmin').onclick=()=>{ $('teacherView').classList.add('hidden'); $('obsBar').classList.add('hidden'); $('loginView').classList.remove('hidden'); $('pw').value=''; $('pwErr').classList.add('hidden'); $('pw').focus(); };
+$('pwCancel').onclick=()=>{ $('loginView').classList.add('hidden'); $('teacherView').classList.remove('hidden'); renderTeacher(); };
+async function tryLogin(){
+  const v=$('pw').value; if(!v) return;
+  $('pwOk').disabled=true; $('pwOk').textContent='확인 중…'; $('pwErr').classList.add('hidden');
+  let ok=false, msg='비밀번호가 맞지 않습니다.';
+  try{ ok = (await API.call('checkPw',{pw:v})).ok; }catch(e){ msg=e.message; }
+  $('pwOk').disabled=false; $('pwOk').textContent='들어가기';
+  if(!ok){ legacyCheck(v); $('pwErr').textContent=msg; $('pwErr').classList.remove('hidden'); return; }
+  adminPw=v; isAdmin=true; resetIdentity();
+  $('loginView').classList.add('hidden'); $('adminView').classList.remove('hidden');
+  $('btnAdmin').classList.add('hidden'); $('btnExitAdmin').classList.remove('hidden'); $('modeLabel').textContent='관리자 모드';
+  showATab('phase'); reload();
+}
+$('pwOk').onclick=tryLogin;
+$('pw').addEventListener('keydown',e=>{ if(e.key==='Enter') tryLogin(); });
+$('btnExitAdmin').onclick=()=>{
+  isAdmin=false; adminPw=''; $('adminView').classList.add('hidden'); $('teacherView').classList.remove('hidden');
+  $('btnAdmin').classList.remove('hidden'); $('btnExitAdmin').classList.add('hidden'); $('modeLabel').textContent='교사용 화면'; renderTeacher();
+};
+function showATab(t){
+  document.querySelectorAll('#aTabs .tab').forEach(x=>x.classList.toggle('on',x.dataset.a===t));
+  ['phase','peer','open','obs','roster','settings','tt'].forEach(k=>$('a-'+k).classList.toggle('hidden', t!==k));
+}
+document.querySelectorAll('#aTabs .tab').forEach(b=>b.addEventListener('click',()=>showATab(b.dataset.a)));
+$('btnReload').onclick=()=>reload().then(()=>toast('새로 불러왔습니다'));
+$('btnPrint').onclick=()=>window.print();
+
+async function saveSetting(k, v, msg){
+  try{ await API.call('setSetting',{k, v, pw:adminPw}); if(msg) toast(msg); await reload(true); return true; }
+  catch(e){ toast('저장 실패: '+e.message); return false; }
+}
+function statusBadges(r){
+  let b='';
+  if(r.revisions>0) b+=`<span class="badge b-mod" title="교사가 다시 제출한 횟수">수정 ${r.revisions}회</span> `;
+  if(r.adminEdited) b+=`<span class="badge b-adm">관리자 수정</span> `;
+  if(!r.revisions && !r.adminEdited) b+=`<span class="badge b-new">최초 제출</span> `;
+  if(S.roster.length && !rosterHas(r.subj,r.name)) b+=`<span class="badge b-out" title="명단에 없는 교과·성명">명단 외</span>`;
+  return b;
+}
+function renderAdmin(){
+  const st=S.settings, ph=phaseOf(st);
+  // 진행 단계
+  $('phaseNow').textContent = '— 현재: '+PHASE_LABEL[ph];
+  ['ph1','ph2','ph3','ph4'].forEach(id=>$(id).classList.remove('cur'));
+  $({before:'ph1',open:'ph1',closed:'ph2',obs:'ph3',obsClosed:'ph4'}[ph]).classList.add('cur');
+  $('btnInputOpen').disabled = !(ph==='before'||ph==='closed');
+  $('btnInputOpen').textContent = ph==='closed'?'입력 다시 열기':(ph==='open'?'입력 중':'입력 개시');
+  $('btnInputClose').disabled = ph!=='open';
+  $('btnObsOn').classList.toggle('hidden', !!st.obsOpen); $('btnObsOff').classList.toggle('hidden', !st.obsOpen);
+  $('btnObsOn').disabled = ph!=='closed';
+  $('btnObsLock').disabled = !st.obsOpen;
+  $('btnObsLock').textContent = st.obsLock?'참관 신청 다시 열기':'참관 신청 마감';
+  $('setPeerCnt').value = st.peerObsCount; $('setOpenCnt').value = st.openObsCount;
+  const ys=[]; for(let y=2024;y<=2032;y++) ys.push(y);
+  $('setYear').innerHTML = ys.map(y=>`<option value="${y}" ${y==st.year?'selected':''}>${y}학년도</option>`).join('');
+  $('setSem').value = String(st.semester);
+  renderSwTable(); renderTtMsg(); renderTtConflicts(); renderTtWho();
+  // 날짜
+  $('setOpenDate').value = st.openDate||'';
+  $('setOpenDateNow').textContent = st.openDate ? '현재 설정: '+fmtDate(st.openDate) : '아직 정하지 않았습니다.';
+  fillSelect($('peerFilter'), subjects(), '전체 교과');
+  renderDateTable('ex'); renderDateTable('ref');
+  renderTable('peer'); renderTable('open'); renderObsAdmin(); renderRoster();
+}
+$('btnInputOpen').onclick=()=>saveSetting('inputState','open','계획 입력을 시작했습니다');
+$('btnInputClose').onclick=()=>{
+  openModal(`<h3>계획 입력을 마감할까요?</h3><p>마감하면 선생님들이 더 이상 ①, ② 계획을 입력하거나 고칠 수 없습니다. 필요하면 다시 열 수 있습니다.</p><div class="row"><button onclick="closeModal()">취소</button><button class="pri right" id="mOk">마감</button></div>`);
+  $('mOk').onclick=async()=>{ closeModal(); await saveSetting('inputState','closed','계획 입력을 마감했습니다'); };
+};
+$('btnObsOn').onclick=()=>{
+  const st=S.settings;
+  openModal(`<h3>수업 참관 신청을 시작할까요?</h3><p>교사 화면에서 ①, ② 입력 탭이 사라지고 수업 참관 신청 화면이 나타납니다.</p>
+    <p>필수 참관 횟수: 동료장학 <b>${st.peerObsCount}개</b>, 전교사 공개 <b>${st.openObsCount}개</b><br><span class="hint">횟수를 바꾸려면 취소한 뒤 아래 '필수 참관 횟수'에서 먼저 저장하세요.</span></p>
+    <div class="row"><button onclick="closeModal()">취소</button><button class="pri right" id="mOk">시작</button></div>`);
+  $('mOk').onclick=async()=>{ closeModal(); await saveSetting('obsOpen',true,'수업 참관 신청을 시작했습니다'); };
+};
+$('btnObsOff').onclick=()=>saveSetting('obsOpen',false,'수업 참관 화면을 껐습니다 (신청 내용은 그대로 남아 있습니다)');
+$('btnObsLock').onclick=()=>saveSetting('obsLock',!S.settings.obsLock, S.settings.obsLock?'참관 신청을 다시 열었습니다':'참관 신청을 마감했습니다');
+const RESET_LABEL={peer:'동료장학 계획',open:'전교사 공개 계획',obs:'수업 참관 신청',roster:'참여 명단',timetable:'주간 시간표·시간표 변경일',dates:'날짜 설정',phase:'진행 단계'};
+$('resetAll').onclick=()=>{ const cs=[...document.querySelectorAll('#resetBox input')]; const all=cs.every(c=>c.checked); cs.forEach(c=>c.checked=!all); };
+$('resetGo').onclick=()=>{ const w=[...document.querySelectorAll('#resetBox input:checked')].map(c=>c.value); if(!w.length){ toast('초기화할 항목을 고르세요.'); return; } resetModal(w); };
+function resetModal(what){
+  openModal(`<h3>초기화</h3><p>아래 항목을 지웁니다. 선생님들 화면에도 바로 반영됩니다.</p>
+    <ul>${what.map(w=>'<li><b>'+RESET_LABEL[w]+'</b></li>').join('')}</ul>
+    <div class="notice warn">지우기 전에 구글 시트 안에 백업 탭이 자동으로 만들어집니다. 필요하면 <button class="sm" id="rsExcel">엑셀로 먼저 받기</button></div>
+    <label class="f">확인을 위해 <b>초기화</b> 라고 입력하세요<input id="rsConfirm" autocomplete="off"></label>
+    <div class="row" style="margin-top:12px"><button onclick="closeModal()">취소</button><button class="danger right" id="rsOk" disabled>초기화</button></div>`);
+  $('rsExcel').onclick=()=>$('btnExcel').click();
+  $('rsConfirm').addEventListener('input',()=>{ $('rsOk').disabled = $('rsConfirm').value.trim()!=='초기화'; });
+  $('rsOk').onclick=async()=>{
+    $('rsOk').disabled=true; $('rsOk').textContent='초기화 중…';
+    try{ const r=await API.call('reset',{what, pw:adminPw}); closeModal(); await reload(true);
+      document.querySelectorAll('#resetBox input').forEach(c=>c.checked=false);
+      alertModal('초기화했습니다', '<p>'+what.map(w=>RESET_LABEL[w]).join(', ')+'</p>'+(r.backups&&r.backups.length?'<p class="hint">구글 시트 백업 탭: '+r.backups.map(esc).join(', ')+'</p>':''));
+    }catch(e){ closeModal(); toast('초기화 실패: '+e.message); }
+  };
+}
+$('btnYearSave').onclick=async()=>{
+  const y=parseInt($('setYear').value), sm=parseInt($('setSem').value);
+  if(await saveSetting('year', y)) await saveSetting('semester', sm, '학년도·학기를 저장했습니다');
+};
+$('btnCntSave').onclick=async()=>{
+  const a=parseInt($('setPeerCnt').value), b=parseInt($('setOpenCnt').value);
+  if(isNaN(a)||isNaN(b)||a<0||b<0){ toast('0 이상의 숫자를 입력해 주세요.'); return; }
+  if(await saveSetting('peerObsCount',a)) await saveSetting('openObsCount',b,'필수 참관 횟수를 저장했습니다');
+};
+
+/* ---------- 동료장학 / 전교사 표 ---------- */
+const obsCountOf = key=>{ const o=S.obs[key]; return {p:o?o.peer.length:0, o:o?o.open.length:0}; };
+function renderTable(type){
+  let list = Object.values(S[type]||{});
+  const total=list.length, mod=list.filter(r=>r.revisions>0||r.adminEdited).length;
+  const od=S.settings.openDate, odi=dateInfo(od);
+  if(type==='peer'){
+    const f=$('peerFilter').value; if(f) list=list.filter(r=>r.subj===f);
+    if($('peerOnlyMod').checked) list=list.filter(r=>r.revisions>0||r.adminEdited);
+    sortList(list, $('peerSort').value);
+    $('peerStats').innerHTML = `<div class="stat">제출<b>${total}</b></div><div class="stat">명단 인원<b>${S.roster.filter(r=>r.name).length||'-'}</b></div><div class="stat">수정된 건<b>${mod}</b></div>`;
+  } else {
+    sortList(list,'subj');
+    $('openStats').innerHTML = `<div class="stat">공개 날짜<b style="font-size:16px">${od?fmtDate(od):'미정'}</b></div><div class="stat">제출<b>${total}</b></div><div class="stat">대상 인원<b>${S.roster.filter(r=>r.name&&r.openTarget).length||'-'}</b></div><div class="stat">수정된 건<b>${mod}</b></div>`;
+  }
+  const head = type==='peer'
+    ? `<tr><th>연번</th><th>교과</th><th>교사</th><th>월</th><th>일</th><th>요일</th><th>교시</th><th>장소</th><th>과목</th><th>과목 및 주제</th><th>참관교사</th><th class="print-hide">상태</th><th class="print-hide">최종 수정</th><th class="print-hide noprint">관리</th></tr>`
+    : `<tr><th>연번</th><th>전문적 학습공동체</th><th>교사</th><th>날짜</th><th>교시</th><th>장소</th><th>과목</th><th>단원 및 주제</th><th>참관교사</th><th class="print-hide">상태</th><th class="print-hide">최종 수정</th><th class="print-hide noprint">관리</th></tr>`;
+  const btns = r=>`<td class="print-hide noprint"><button class="sm" data-act="edit" data-type="${type}" data-key="${esc(r.key)}">수정</button> ${(r.history||[]).length?`<button class="sm" data-act="hist" data-type="${type}" data-key="${esc(r.key)}">이력</button> `:''}<button class="sm danger" data-act="del" data-type="${type}" data-key="${esc(r.key)}">삭제</button></td>`;
+  const obsNames = r=>{ const os=observersOf(type,r.key,null); return (os.length?`<span class="hint">(${os.length})</span> `+os.map(o=>esc(o.name)).join(', '):'')+` <button class="sm noprint" data-lobs="${type}" data-key="${esc(r.key)}">참관 편집</button>`; };
+  const body = list.map((r,i)=>{
+    if(type==='peer'){ const di=dateInfo(r.date), ex=findExclude(r.date,S.settings.excludeDates);
+      return `<tr><td>${i+1}</td><td>${esc(r.subj)}</td><td>${esc(r.name)}</td><td>${di.m}</td><td>${di.d}</td><td>${di.dow}${ex?' <span class="badge b-out noprint" title="'+esc(ex.reason)+'">제외일</span>':''}</td><td>${perNum(r.period)}</td><td>${esc(r.place)}</td><td>${esc(r.course)}</td><td class="wrap">${esc(r.topic)}</td><td class="wrap">${obsNames(r)}</td><td class="print-hide">${statusBadges(r)}</td><td class="print-hide">${esc(r.updatedAt)}</td>${btns(r)}</tr>`; }
+    return `<tr><td>${i+1}</td><td>${esc(r.subj)}</td><td>${esc(r.name)}</td><td>${od?`${od.replace(/-/g,'.')} ${odi.dow}`:'미정'}</td><td>${perNum(r.period)}교시</td><td>${esc(r.place)}</td><td>${esc(r.course)}</td><td class="wrap">${esc(r.topic)}</td><td class="wrap">${obsNames(r)}</td><td class="print-hide">${statusBadges(r)}</td><td class="print-hide">${esc(r.updatedAt)}</td>${btns(r)}</tr>`;
+  }).join('');
+  $(type+'Table').innerHTML = head + (body || `<tr><td colspan="14" style="text-align:center;color:var(--sub);padding:24px">아직 제출된 자료가 없습니다.</td></tr>`);
+}
+['peerFilter','peerOnlyMod','peerSort'].forEach(id=>$(id).addEventListener('change',()=>renderTable('peer')));
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button[data-act]'); if(!b) return;
+  const {act,type,key}=b.dataset;
+  if(type==='obs'){
+    if(act==='edit') obsEditModal(key);
+    const r=S.obs[key]; if(!r) return;
+    if(act==='hist') obsHistModal(r);
+    if(act==='del') delModal('obs', r);
+    return;
+  }
+  const r=S[type]&&S[type][key]; if(!r) return;
+  if(act==='edit') editModal(type,r);
+  if(act==='hist') histModal(type,r);
+  if(act==='del') delModal(type,r);
+});
+function editModal(type, r){
+  const subjOpts = subjects().map(s=>`<option ${s===r.subj?'selected':''}>${esc(s)}</option>`).join('');
+  const perOpts = PERIODS.map(n=>`<option ${String(r.period)===n+'교시'?'selected':''}>${n}교시</option>`).join('');
+  openModal(`<h3>${esc(r.subj)} ${esc(r.name)} ${type==='open'?'전교사 공개':'동료장학'} 자료 수정</h3>
+   <div class="grid">
+    <label class="f">교과<select id="e_subj">${subjOpts}</select></label>
+    <label class="f">성명<input id="e_name" value="${esc(r.name)}"></label>
+    ${type==='peer'?`<label class="f">공개 날짜<input id="e_date" type="date" value="${esc(r.date)}"><span class="err" id="e_dateWarn"></span></label>`:''}
+    <label class="f">교시<select id="e_period">${perOpts}</select></label>
+    <label class="f">장소<input id="e_place" value="${esc(r.place)}"></label>
+    <label class="f">과목<input id="e_course" value="${esc(r.course)}"></label>
+    <label class="f wide">주제<input id="e_topic" value="${esc(r.topic)}"></label>
+   </div>
+   <p class="hint">저장하면 '관리자 수정' 표시가 붙고 이전 내용은 이력에 남습니다.${type==='peer'?' 관리자는 제외 날짜도 지정할 수 있습니다.':''} 교과·성명을 바꾸면 이 수업의 참관 신청 연결이 끊어지니 주의하세요.</p>
+   <div class="row"><button onclick="closeModal()">취소</button><button class="pri right" id="eSave">저장</button></div>`);
+  if(type==='peer'){ const w=()=>{ const ex=findExclude($('e_date').value,S.settings.excludeDates); $('e_dateWarn').textContent=ex?'제외 날짜입니다: '+ex.reason:''; }; $('e_date').addEventListener('change',w); w(); }
+  $('eSave').onclick=async()=>{
+    const rec={}; fieldsOf(type).forEach(([k])=>rec[k]=$('e_'+k).value.trim()); rec.name=normName(rec.name);
+    if(fieldsOf(type).some(([k])=>!rec[k])){ toast('빈 칸이 있습니다.'); return; }
+    try{ await API.call('adminUpdate',{type, key:r.key, rec, pw:adminPw}); closeModal(); toast('저장했습니다'); reload(); }catch(e){ toast('저장 실패: '+e.message); }
+  };
+}
+function histModal(type, r){
+  const items = [...(r.history||[])].reverse().map(h=>{ const b=h.before;
+    return `<div style="border-top:1px solid var(--line);padding:8px 0"><b>${esc(h.at)}</b> · ${esc(h.by)}가 수정 — 수정 전 내용:<div class="hint">${esc(b.subj)} / ${esc(b.name)}${type==='peer'?' / '+fmtDate(b.date):''} / ${esc(b.period)} / ${esc(b.place)} / ${esc(b.course)} / 주제: ${esc(b.topic)}</div></div>`; }).join('');
+  openModal(`<h3>${esc(r.subj)} ${esc(r.name)} 수정 이력</h3><p class="hint">최초 제출: ${esc(r.createdAt)} · 교사 재제출 ${r.revisions||0}회${r.adminEdited?' · 관리자 수정 있음':''}</p>${items}
+   <div class="row" style="margin-top:10px"><button class="pri right" onclick="closeModal()">닫기</button></div>`);
+}
+function delModal(type, r){
+  openModal(`<h3>자료 삭제</h3><p><b>${esc(r.subj)} ${esc(r.name)}</b> 선생님의 ${type==='obs'?'참관 신청':'자료'}를 삭제할까요? 되돌릴 수 없습니다.</p>
+   <div class="row"><button onclick="closeModal()">취소</button><button class="danger right" id="dOk">삭제</button></div>`);
+  $('dOk').onclick=async()=>{ try{ await API.call('adminDelete',{type,key:r.key,pw:adminPw}); closeModal(); toast('삭제했습니다'); reload(); }catch(e){ toast('삭제 실패: '+e.message); } };
+}
+
+/* ---------- 참관 현황 (관리자) ---------- */
+function obsShort(t,k){ const L=S[t][k]; if(!L) return '(삭제된 수업)';
+  const d=t==='peer'?L.date:S.settings.openDate; const di=dateInfo(d);
+  return `${d?di.m.replace('월','/')+di.d+' ':''}${perNum(L.period)}교시 ${L.name}(${L.course})`; }
+function renderObsAdmin(){
+  const st=S.settings, NP=Number(st.peerObsCount), NO=Number(st.openObsCount);
+  const people = S.roster.filter(r=>r.name).map(r=>({subj:r.subj, name:r.name, key:keyOf(r.subj,r.name)}));
+  Object.values(S.obs).forEach(o=>{ if(!people.some(p=>p.key===o.key)) people.push({subj:o.subj,name:o.name,key:o.key,out:true}); });
+  const isDone = o=> o && o.peer.length===NP && o.open.length===NO;
+  const doneN = people.filter(p=>isDone(S.obs[p.key])).length;
+  $('obsStats').innerHTML = `<div class="stat">진행 상태<b style="font-size:15px">${PHASE_LABEL[phaseOf(st)]}</b></div><div class="stat">필수 횟수<b style="font-size:16px">동 ${NP} · 전 ${NO}</b></div><div class="stat">신청 완료<b>${doneN} / ${people.length}</b></div><div class="stat">미신청<b>${people.filter(p=>!S.obs[p.key]).length}</b></div>`;
+  const f=$('obsAFilter').value;
+  let list=people;
+  if(f==='done') list=list.filter(p=>S.obs[p.key]);
+  if(f==='none') list=list.filter(p=>!S.obs[p.key]);
+  if(f==='mod') list=list.filter(p=>{const o=S.obs[p.key]; return o&&(o.revisions>0||o.adminEdited);});
+  $('obsATable').innerHTML = `<tr><th>연번</th><th>교과</th><th>교사</th><th>동료장학 참관</th><th>전교사 공개 참관</th><th>동</th><th>전</th><th>합</th><th class="print-hide">상태</th><th class="print-hide">최종 수정</th><th class="print-hide noprint">관리</th></tr>` +
+    (list.length? list.map((p,i)=>{ const o=S.obs[p.key];
+      const stt = !o ? '<span class="badge b-out">미신청</span>' : (isDone(o)?'<span class="badge b-new">신청 완료</span> ':'<span class="badge b-mod">횟수 불일치</span> ') + (o.revisions>0?`<span class="badge b-mod">수정 ${o.revisions}회</span> `:'') + (o.adminEdited?'<span class="badge b-adm">관리자 수정</span>':'') + (p.out?' <span class="badge b-out">명단 외</span>':'');
+      return `<tr><td>${i+1}</td><td>${esc(p.subj)}</td><td>${esc(p.name)}</td><td class="wrap">${o?o.peer.map(k=>esc(obsShort('peer',k))).join('<br>'):''}</td><td class="wrap">${o?o.open.map(k=>esc(obsShort('open',k))).join('<br>'):''}</td>
+        <td>${o?o.peer.length:0}</td><td>${o?o.open.length:0}</td><td>${o?o.peer.length+o.open.length:0}</td><td class="print-hide">${stt}</td><td class="print-hide">${o?esc(o.updatedAt):''}</td>
+        <td class="print-hide noprint"><button class="sm" data-act="edit" data-type="obs" data-key="${esc(p.key)}">${o?'수정':'지정'}</button>${o&&(o.history||[]).length?` <button class="sm" data-act="hist" data-type="obs" data-key="${esc(p.key)}">이력</button>`:''}${o?` <button class="sm danger" data-act="del" data-type="obs" data-key="${esc(p.key)}">삭제</button>`:''}</td></tr>`;
+    }).join('') : `<tr><td colspan="11" style="text-align:center;color:var(--sub);padding:24px">표시할 선생님이 없습니다. 명단을 먼저 올려 주세요.</td></tr>`);
+}
+$('obsAFilter').addEventListener('change',renderObsAdmin);
+function obsEditModal(key){
+  const o=S.obs[key]; const [subj,name]=key.split('|');
+  const cur={peer:o?[...o.peer]:[], open:o?[...o.open]:[]};
+  const chk=(t)=>lessonsOf(t).filter(L=>L.key!==key).map(L=>{ const n=observersOf(t,L.key,key).length; const cap=capOf(t,L,subj);
+    return `<label class="chk"><input type="checkbox" data-t="${t}" value="${esc(L.key)}" ${cur[t].includes(L.key)?'checked':''}><span>${esc(lessonText(t,L))} <span class="${n>=cap?'err':'hint'}">(다른 참관 ${n}명 / 정원 ${cap})</span></span></label>`; }).join('') || '<p class="hint">수업이 없습니다.</p>';
+  openModal(`<h3>${esc(subj)} ${esc(name)} 참관 ${o?'수정':'지정'}</h3>
+    <p class="hint">관리자는 정원·횟수 제한 없이 지정할 수 있습니다. 필수 횟수: 동료장학 ${S.settings.peerObsCount}개, 전교사 ${S.settings.openObsCount}개</p>
+    <h4 style="margin:10px 0 4px">동료장학 수업</h4><div style="max-height:260px;overflow:auto">${chk('peer')}</div>
+    <h4 style="margin:12px 0 4px;color:var(--op-pri)">전교사 공개 수업</h4><div style="max-height:200px;overflow:auto">${chk('open')}</div>
+    <div class="row" style="margin-top:12px"><button onclick="closeModal()">취소</button><button class="pri right" id="oSave">저장</button></div>`, true);
+  $('oSave').onclick=async()=>{
+    const rec={subj,name,peer:[],open:[]};
+    document.querySelectorAll('#modalBox input[type=checkbox]:checked').forEach(c=>rec[c.dataset.t].push(c.value));
+    if(!o && !rec.peer.length && !rec.open.length){ closeModal(); return; }
+    try{ await API.call('adminObsUpdate',{key, rec, pw:adminPw}); closeModal(); toast('저장했습니다'); reload(); }catch(e){ toast('저장 실패: '+e.message); }
+  };
+}
+function obsHistModal(r){
+  const items=[...(r.history||[])].reverse().map(h=>`<div style="border-top:1px solid var(--line);padding:8px 0"><b>${esc(h.at)}</b> · ${esc(h.by)}가 수정 — 수정 전:<div class="hint">동료장학: ${(h.before.peer||[]).map(k=>esc(obsShort('peer',k))).join(', ')||'없음'}<br>전교사: ${(h.before.open||[]).map(k=>esc(obsShort('open',k))).join(', ')||'없음'}</div></div>`).join('');
+  openModal(`<h3>${esc(r.subj)} ${esc(r.name)} 참관 신청 이력</h3><p class="hint">최초 신청: ${esc(r.createdAt)} · 교사 재신청 ${r.revisions||0}회</p>${items}<div class="row" style="margin-top:10px"><button class="pri right" onclick="closeModal()">닫기</button></div>`);
+}
+
+/* ---------- 수업별 참관교사 편집 (관리자: 인원·횟수 제한 없음) ---------- */
+document.addEventListener('click',e=>{ const b=e.target.closest('button[data-lobs]'); if(b) lessonObsModal(b.dataset.lobs, b.dataset.key); });
+function lessonObsModal(type, lkey){
+  const L=S[type][lkey]; if(!L) return;
+  const NP=Number(S.settings.peerObsCount), NO=Number(S.settings.openObsCount);
+  const people=S.roster.filter(r=>r.name).map(r=>({key:keyOf(r.subj,r.name), subj:r.subj, name:r.name})).filter(p=>p.key!==lkey);
+  const cur=new Set(observersOf(type,lkey,null).map(o=>o.key));
+  const cap = type==='open'?OPEN_CAP:`${PEER_CAP} (동교과 ${PEER_CAP_SAME})`;
+  const bySubj={}; people.forEach(p=>(bySubj[p.subj]=bySubj[p.subj]||[]).push(p));
+  const html = Object.keys(bySubj).map(sj=>`<h4 style="margin:10px 0 2px">${esc(sj)}</h4><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:0 12px">${
+    bySubj[sj].map(p=>{ const o=S.obs[p.key]; const c=o?`동 ${o.peer.length}/${NP} · 전 ${o.open.length}/${NO}`:'미신청';
+      const bz=ttBusyAt(S.settings,p.subj,p.name,type==='peer'?L.date:S.settings.openDate,L.period);
+      return `<label class="chk"><input type="checkbox" value="${esc(p.key)}" ${cur.has(p.key)?'checked':''}><span>${esc(p.name)} <span class="hint">${c}</span>${bz?` <span class="err">수업(${bz})</span>`:''}</span></label>`; }).join('')}</div>`).join('');
+  openModal(`<h3>참관교사 편집 — ${esc(lessonText(type,L))}</h3>
+    <p class="hint">관리자는 정원(${cap})과 필수 횟수에 상관없이 지정할 수 있습니다. 체크를 풀면 그 선생님의 참관 신청에서 이 수업이 빠집니다.</p>
+    <div class="row"><b>선택 <span id="lobsCnt"></span>명</b></div>
+    <div style="max-height:55vh;overflow:auto">${html||'<p class="hint">명단이 없습니다.</p>'}</div>
+    <div class="row" style="margin-top:12px"><button onclick="closeModal()">취소</button><button class="pri right" id="lobsSave">저장</button></div>`, true);
+  const upd=()=>{ $('lobsCnt').textContent=document.querySelectorAll('#modalBox input[type=checkbox]:checked').length; };
+  document.querySelectorAll('#modalBox input[type=checkbox]').forEach(c=>c.addEventListener('change',upd)); upd();
+  $('lobsSave').onclick=async()=>{
+    const sel=[...document.querySelectorAll('#modalBox input[type=checkbox]:checked')].map(c=>people.find(p=>p.key===c.value));
+    try{ await API.call('adminLessonObs',{type, lkey, people:sel, pw:adminPw}); closeModal(); toast('참관교사를 저장했습니다'); reload(); }
+    catch(e){ toast('저장 실패: '+e.message); }
+  };
+}
+
+/* ---------- 주간 시간표 ---------- */
+function parseTimetable(aoa){
+  const hi = aoa.findIndex(row=>row.some(c=>String(c).replace(/\s+/g,'')==='교사'));
+  if(hi<0) throw new Error("'교사' 머리글을 찾지 못했습니다.");
+  const H=aoa[hi].map(c=>String(c).replace(/\s+/g,''));
+  const ni=H.indexOf('교사'), si=H.indexOf('교과');
+  // 요일 행: 머리글 행(또는 그 위아래)에서 월~금 찾기
+  let dRow=null, pRow=null;
+  for(const r of [hi, hi+1, hi-1]){ if(r<0||!aoa[r]) continue; if(aoa[r].some(c=>/^[월화수목금](요일)?$/.test(String(c).trim()))){ dRow=r; break; } }
+  if(dRow===null) throw new Error('요일(월~금) 머리글을 찾지 못했습니다.');
+  for(const r of [dRow+1, dRow+2]){ if(aoa[r] && aoa[r].filter(c=>/^\d+$/.test(String(c).trim())).length>=5){ pRow=r; break; } }
+  if(pRow===null) throw new Error('교시 머리글을 찾지 못했습니다.');
+  const cols=[]; let day='';
+  const width=Math.max(aoa[dRow].length, aoa[pRow].length);
+  for(let c=0;c<width;c++){ const dv=String(aoa[dRow][c]||'').trim().replace('요일',''); if(/^[월화수목금]$/.test(dv)) day=dv;
+    const pv=String(aoa[pRow][c]||'').trim(); if(day && /^\d+$/.test(pv)) cols.push({c, key:day+parseInt(pv)}); }
+  const out=[], skipped=[];
+  aoa.slice(pRow+1).forEach(row=>{ const n=normName(String(row[ni]||'')); const s=String(row[si]||'').trim(); if(!n){ if(s) skipped.push(s); return; }
+    const b=cols.filter(x=>String(row[x.c]||'').trim()!=='').map(x=>x.key); out.push({s, n, b}); });
+  return {list:out, blank:skipped.length, slots:cols.length};
+}
+$('ttFile').addEventListener('change', async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});
+    const aoa=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:'',raw:false});
+    const r=parseTimetable(aoa);
+    if(!r.list.length) throw new Error(`교사 이름이 적힌 행이 없습니다. (교사 칸이 빈 행 ${r.blank}개) 시간표의 '교사' 열에 이름을 채워 주세요.`);
+    await API.call('setSetting',{k:'timetable', v:r.list, pw:adminPw});
+    toast('시간표를 저장했습니다'); await reload(true);
+    if(r.blank) $('ttMsg').innerHTML += `<br><span class="err">교사 이름이 빈 행 ${r.blank}개는 건너뛰었습니다.</span>`;
+  }catch(err){ $('ttMsg').innerHTML='<span class="err">불러오기 실패: '+esc(err.message)+'</span>'; }
+  e.target.value='';
+});
+$('ttClear').onclick=()=>resetModal(['timetable']);
+$('rosterReset').onclick=()=>resetModal(['roster']);
+function renderTtMsg(){
+  const tt=S.settings.timetable||[];
+  $('ttClear').classList.toggle('hidden', !tt.length);
+  if(!tt.length){ $('ttMsg').textContent='등록된 시간표가 없습니다. (시간표가 없으면 수업 시간 겹침 검사는 하지 않습니다.)'; return; }
+  const named=S.roster.filter(r=>r.name);
+  const unmatchedTT = tt.filter(t=>!named.some(r=>normName(r.name)===t.n)).map(t=>t.n);
+  const noTT = named.filter(r=>!ttFind(tt,r.subj,r.name)).map(r=>r.name);
+  $('ttMsg').innerHTML = `시간표 등록: 교사 ${tt.length}명` +
+    (unmatchedTT.length?`<br><span class="err">명단에 없는 이름(${unmatchedTT.length}): ${unmatchedTT.map(esc).join(', ')}</span>`:'') +
+    (noTT.length?`<br><span class="err">시간표에 없는 명단 교사(${noTT.length}): ${noTT.map(esc).join(', ')}</span>`:'');
+}
+
+/* ---------- 시간표 비교 ---------- */
+function renderTtConflicts(){
+  const st=S.settings, tt=st.timetable||[];
+  if(!tt.length){ $('ttConflicts').innerHTML='<p class="hint">시간표를 올리면 확인할 수 있습니다.</p>'; return; }
+  const rows=[];
+  Object.values(S.obs||{}).forEach(o=>{
+    ['peer','open'].forEach(t=>(o[t]||[]).forEach(k=>{ const L=S[t][k]; if(!L) return;
+      const bz=ttBusyAt(st,o.subj,o.name,t==='peer'?L.date:st.openDate,L.period);
+      if(bz) rows.push({o,t,L,bz}); }));
+  });
+  $('ttConflicts').innerHTML = rows.length
+    ? `<div class="notice bad noprint">시간표와 겹치는 참관 신청이 ${rows.length}건 있습니다. 해당 수업의 <b>참관 편집</b>이나 '수업 참관 현황'에서 고쳐 주세요.</div>
+       <div class="tablewrap"><table><tr><th>교과</th><th>참관 교사</th><th>구분</th><th>참관 수업</th><th>겹치는 본인 수업</th></tr>${rows.map(x=>
+        `<tr><td>${esc(x.o.subj)}</td><td>${esc(x.o.name)}</td><td>${x.t==='peer'?'동료장학':'전교사 공개'}</td><td>${esc(lessonText(x.t,x.L))}</td><td class="err">${esc(x.bz)}</td></tr>`).join('')}</table></div>`
+    : '<div class="notice ok">시간표와 겹치는 참관 신청이 없습니다.</div>';
+}
+function renderTtWho(){
+  const el=$('ttWho'), cur=el.value;
+  const people=S.roster.filter(r=>r.name);
+  el.innerHTML='<option value="">교사 선택</option>'+people.map(r=>{ const k=keyOf(r.subj,r.name); return `<option value="${esc(k)}">${esc(r.subj)} ${esc(r.name)}</option>`; }).join('');
+  if([...el.options].some(o=>o.value===cur)) el.value=cur;
+  renderTtGrid();
+}
+function renderTtGrid(){
+  const k=$('ttWho').value, st=S.settings;
+  if(!k){ $('ttGrid').innerHTML=''; $('ttWhoInfo').textContent=''; return; }
+  const [subj,name]=k.split('|'); const t=ttFind(st.timetable,subj,name);
+  const days=['월','화','수','목','금'];
+  // 이 교사의 참관 수업·본인 공개 수업을 요일·교시 칸에 표시
+  const marks={}; const add=(wd,p,txt,cls)=>{ (marks[wd+p]=marks[wd+p]||[]).push(`<div class="${cls}" style="font-size:11.5px">${txt}</div>`); };
+  const o=S.obs[k];
+  if(o) ['peer','open'].forEach(tp=>o[tp].forEach(lk=>{ const L=S[tp][lk]; if(!L) return; const d=tp==='peer'?L.date:st.openDate; if(!d) return;
+    add(weekdayOf(d,st.ttSwap), parseInt(L.period), `참관 ${fmtDate(d)} ${esc(L.name)}`, 'err'); }));
+  const pm=S.peer[k]; if(pm) add(weekdayOf(pm.date,st.ttSwap), parseInt(pm.period), `공개 ${fmtDate(pm.date)}`, 'hint');
+  const om=S.open[k]; if(om&&st.openDate) add(weekdayOf(st.openDate,st.ttSwap), parseInt(om.period), `전교사 공개 ${fmtDate(st.openDate)}`, 'hint');
+  $('ttWhoInfo').textContent = t ? `주간 수업 ${t.b.length}시간 · 회색 칸이 수업 시간입니다.` : '시간표에서 이 선생님을 찾지 못했습니다.';
+  let h='<tr><th>교시</th>'+days.map(d=>`<th>${d}</th>`).join('')+'</tr>';
+  for(let p=1;p<=7;p++){ h+=`<tr><th>${p}</th>`+days.map(d=>{ const busy=t&&t.b.includes(d+p); const m=(marks[d+p]||[]).join('');
+    return `<td style="${busy?'background:#e4e7ec;':''}min-width:80px;vertical-align:top">${busy?'<b style="font-size:12px">수업</b>':''}${m}</td>`; }).join('')+'</tr>'; }
+  $('ttGrid').innerHTML=h;
+}
+$('ttWho').addEventListener('change',renderTtGrid);
+
+/* ---------- 시간표 변경일 ---------- */
+function renderSwTable(){
+  const list=[...(S.settings.ttSwap||[])].sort((a,b)=>a.date.localeCompare(b.date));
+  $('swTable').innerHTML = `<tr><th>날짜</th><th>운영 시간표</th><th></th></tr>` + (list.length ? list.map(x=>
+    `<tr><td>${fmtDate(x.date)}</td><td>${esc(x.dow)}요일 시간표</td><td><button class="sm danger" data-sw="${esc(x.date)}">삭제</button></td></tr>`).join('')
+    : `<tr><td colspan="3" style="color:var(--sub);text-align:center">등록된 변경일이 없습니다.</td></tr>`);
+}
+$('swAdd').onclick=async()=>{
+  const date=$('swDate').value, dow=$('swDow').value; if(!date){ toast('날짜를 고르세요.'); return; }
+  const list=(S.settings.ttSwap||[]).filter(x=>x.date!==date).concat([{date,dow}]);
+  if(await saveSetting('ttSwap', list, '추가했습니다')) $('swDate').value='';
+};
+document.addEventListener('click',e=>{ const b=e.target.closest('button[data-sw]'); if(b) saveSetting('ttSwap',(S.settings.ttSwap||[]).filter(x=>x.date!==b.dataset.sw),'삭제했습니다'); });
+
+/* ---------- 날짜 설정 ---------- */
+const DCONF = {
+  ex:  {key:'excludeDates', text:'reason', label:'이유', s:'exStart', e:'exEnd', t:'exReason', table:'exTable'},
+  ref: {key:'refDates',     text:'note',   label:'내용', s:'refStart', e:'refEnd', t:'refNote',  table:'refTable'}
+};
+function renderDateTable(kind){
+  const c=DCONF[kind]; const list=[...(S.settings[c.key]||[])].sort((a,b)=>a.start.localeCompare(b.start));
+  $(c.table).innerHTML = `<tr><th>날짜</th><th>${c.label}</th><th></th></tr>` + (list.length ? list.map(x=>
+    `<tr><td>${fmtRange(x.start,x.end)}</td><td class="wrap">${esc(x[c.text])}</td><td><button class="sm danger" data-dk="${kind}" data-id="${esc(x.id)}">삭제</button></td></tr>`).join('')
+    : `<tr><td colspan="3" style="color:var(--sub);text-align:center">등록된 날짜가 없습니다.</td></tr>`);
+}
+['ex','ref'].forEach(kind=>{
+  const c=DCONF[kind];
+  $(kind+'Add').onclick=async()=>{
+    const start=$(c.s).value, end=$(c.e).value, txt=$(c.t).value.trim();
+    if(!start || !txt){ toast(`시작일과 ${c.label}을 입력해 주세요.`); return; }
+    if(end && end<start){ toast('종료일이 시작일보다 빠릅니다.'); return; }
+    const item={id:Date.now().toString(36), start, end:end&&end!==start?end:''}; item[c.text]=txt;
+    if(await saveSetting(c.key, [...(S.settings[c.key]||[]), item], '추가했습니다')){ $(c.s).value=''; $(c.e).value=''; $(c.t).value=''; }
+  };
+});
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button[data-dk]'); if(!b) return;
+  const c=DCONF[b.dataset.dk]; saveSetting(c.key, (S.settings[c.key]||[]).filter(x=>x.id!==b.dataset.id), '삭제했습니다');
+});
+$('setOpenDateSave').onclick=()=>saveSetting('openDate', $('setOpenDate').value, $('setOpenDate').value?'전교사 공개 날짜를 저장했습니다':'날짜를 비웠습니다');
+
+/* ---------- 명단 ---------- */
+function renderRoster(){
+  const rows=S.roster, named=rows.filter(r=>r.name);
+  const peerDone=named.filter(r=>S.peer[keyOf(r.subj,r.name)]).length;
+  const tgt=named.filter(r=>r.openTarget), openDone=tgt.filter(r=>S.open[keyOf(r.subj,r.name)]).length;
+  const obsDone=named.filter(r=>S.obs[keyOf(r.subj,r.name)]).length;
+  $('rosterStats').innerHTML = rows.length ? `<div class="stat">명단 인원<b>${named.length}</b></div><div class="stat">동료장학 제출<b>${peerDone} / ${named.length}</b></div><div class="stat">전교사 공개 제출<b>${openDone} / ${tgt.length}</b></div><div class="stat">참관 신청<b>${obsDone} / ${named.length}</b></div>` : '';
+  if(!rows.length){ $('rosterTable').innerHTML='<tr><td style="text-align:center;color:var(--sub);padding:24px">아직 명단이 없습니다. 위에서 엑셀 파일을 올려 주세요. (명단이 없으면 교과는 기본 6개 교과로 표시됩니다.)</td></tr>'; return; }
+  const B=(ok)=>ok?'<span class="badge b-new">제출</span>':'<span class="badge b-out">미제출</span>';
+  $('rosterTable').innerHTML = `<tr><th>연번</th><th>교과</th><th>교사</th><th>전교사 공개 대상</th><th>동료장학 제출</th><th>전교사 공개 제출</th><th>참관 신청</th></tr>` +
+    rows.map((r,i)=>{ const k=keyOf(r.subj,r.name);
+      return `<tr><td>${i+1}</td><td>${esc(r.subj)}</td><td>${esc(r.name)||'<span class="hint">(빈칸)</span>'}</td><td>${r.openTarget?'<span class="badge b-op">대상</span>':''}</td>
+       <td>${r.name?B(S.peer[k]):''}</td><td>${r.name&&r.openTarget?B(S.open[k]):''}</td><td>${r.name?(S.obs[k]?'<span class="badge b-new">신청</span>':'<span class="badge b-out">미신청</span>'):''}</td></tr>`; }).join('');
+}
+$('rosterFile').addEventListener('change', async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{
+    const wb = XLSX.read(await f.arrayBuffer(), {type:'array'});
+    const aoa = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1, defval:'', raw:false});
+    const hi = aoa.findIndex(row=>row.some(c=>String(c).trim()==='교과'));
+    if(hi<0) throw new Error("'교과' 머리글을 찾지 못했습니다.");
+    const H = aoa[hi].map(c=>String(c).replace(/\s+/g,''));
+    const ci=H.findIndex(h=>h==='교과'), ni=H.findIndex(h=>h==='교사'||h==='성명'||h==='이름'), ti=H.findIndex(h=>h.includes('전교사'));
+    if(ni<0) throw new Error("'교사' 머리글을 찾지 못했습니다.");
+    if(ti<0) throw new Error("'전교사 공개수업 대상 유무' 머리글을 찾지 못했습니다.");
+    const roster = aoa.slice(hi+1).map(row=>({subj:String(row[ci]||'').trim(), name:normName(String(row[ni]||'')), openTarget:String(row[ti]).trim()==='1'})).filter(r=>r.subj);
+    await API.call('saveRoster',{roster, pw:adminPw});
+    const subs=[...new Set(roster.map(r=>r.subj))], tg=roster.filter(r=>r.openTarget&&r.name);
+    $('rosterMsg').textContent = `${roster.length}행 불러옴 · 교과 ${subs.length}개 · 전교사 공개 대상 ${tg.length}명${tg.length?' ('+tg.map(r=>r.name).join(', ')+')':''}`;
+    toast('명단을 저장했습니다'); reload();
+  }catch(err){ $('rosterMsg').textContent='불러오기 실패: '+err.message; }
+  e.target.value='';
+});
+
+/* ---------- 엑셀 ---------- */
+$('btnExcel').onclick=()=>{
+  const wb = XLSX.utils.book_new();
+  const stOf = r=>[r.revisions>0?`교사 수정 ${r.revisions}회`:'', r.adminEdited?'관리자 수정':''].filter(Boolean).join(', ');
+  const textCol = (ws, col, n)=>{ for(let i=1;i<=n;i++){ const c=XLSX.utils.encode_cell({r:i,c:col}); if(ws[c]){ ws[c].t='s'; ws[c].z='@'; } } };
+  // 1. 동료장학 (원본 양식 + 참관교사 + 동/전/합)
+  const pl = sortList(Object.values(S.peer||{}),'date');
+  const ph = ['연번','교과','교사','월','일','요일','교시','장소','과목','과목 및 주제','참관교사 1','참관교사 2','참관교사 3','참관교사 4','참관교사 5(동교과)','비고','동','전','합','수정 여부','최종 수정'];
+  const pr = pl.map((r,i)=>{ const di=dateInfo(r.date); const os=observersOf('peer',r.key,null).map(o=>o.name); const c=obsCountOf(r.key);
+    return [i+1,r.subj,r.name,di.m,di.d,di.dow,perNum(r.period),String(r.place),r.course,r.topic,os[0]||'',os[1]||'',os[2]||'',os[3]||'',os[4]||'','',c.p,c.o,c.p+c.o,stOf(r),r.updatedAt]; });
+  const ws1 = XLSX.utils.aoa_to_sheet([ph,...pr]); textCol(ws1,7,pr.length);
+  ws1['!cols']=[6,11,8,5,4,7,5,13,14,36,9,9,9,9,11,12,4,4,4,16,17].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb, ws1, `${S.settings.semester}학기 동료장학`);
+  // 2. 전교사
+  const od=S.settings.openDate, odTxt = od?`${od.replace(/-/g,'.')} ${dateInfo(od).dow}`:'';
+  const ol = sortList(Object.values(S.open||{}),'subj');
+  const oh = ['연번','전문적 학습공동체','교사','날짜','교시','장소','과목','단원 및 주제','참관교사','참관 인원','수정 여부','최종 수정'];
+  const or = ol.map((r,i)=>{ const os=observersOf('open',r.key,null).map(o=>o.name); return [i+1,r.subj,r.name,odTxt,perNum(r.period)+'교시',String(r.place),r.course,r.topic,os.join(', '),os.length,stOf(r),r.updatedAt]; });
+  const ws2 = XLSX.utils.aoa_to_sheet([oh,...or]); textCol(ws2,5,or.length);
+  ws2['!cols']=[6,16,8,17,6,13,16,36,50,8,16,17].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb, ws2, '전교사 대상 수업 공개');
+  // 3. 참관 신청 내역
+  const NP=Number(S.settings.peerObsCount), NO=Number(S.settings.openObsCount);
+  const ob=[['연번','교과','교사',...Array.from({length:Math.max(NP,1)},(_,i)=>`동료장학 참관 ${i+1}`),...Array.from({length:Math.max(NO,1)},(_,i)=>`전교사 참관 ${i+1}`),'동','전','합','상태','최종 수정']];
+  const people = S.roster.filter(r=>r.name);
+  Object.values(S.obs).forEach(o=>{ if(!people.some(p=>keyOf(p.subj,p.name)===o.key)) people.push({subj:o.subj,name:o.name}); });
+  people.forEach((p,i)=>{ const o=S.obs[keyOf(p.subj,p.name)];
+    const ps=Array.from({length:Math.max(NP,1)},(_,j)=>o&&o.peer[j]?obsShort('peer',o.peer[j]):'');
+    const os=Array.from({length:Math.max(NO,1)},(_,j)=>o&&o.open[j]?obsShort('open',o.open[j]):'');
+    const extra = o ? o.peer.slice(Math.max(NP,1)).map(k=>obsShort('peer',k)).concat(o.open.slice(Math.max(NO,1)).map(k=>obsShort('open',k))) : [];
+    ob.push([i+1,p.subj,p.name,...ps,...os,o?o.peer.length:0,o?o.open.length:0,o?o.peer.length+o.open.length:0,
+      (!o?'미신청':(o.peer.length===NP&&o.open.length===NO?'신청 완료':'횟수 불일치'))+(extra.length?' (추가: '+extra.join(', ')+')':''), o?o.updatedAt:'']); });
+  const ws3=XLSX.utils.aoa_to_sheet(ob); ws3['!cols']=ob[0].map(h=>({wch:h.includes('참관')?30:h==='최종 수정'?17:h==='상태'?12:h==='교과'?11:6}));
+  XLSX.utils.book_append_sheet(wb, ws3, '수업 참관 신청');
+  // 4. 제출 현황
+  const st=[['연번','교과','교사','전교사 공개 대상','동료장학 제출','전교사 공개 제출','참관 신청']];
+  S.roster.forEach((r,i)=>{ const k=keyOf(r.subj,r.name);
+    st.push([i+1,r.subj,r.name,r.openTarget?1:'', !r.name?'':S.peer[k]?'제출':'미제출', !r.name||!r.openTarget?'':S.open[k]?'제출':'미제출', !r.name?'':S.obs[k]?'신청':'미신청']); });
+  const ws4=XLSX.utils.aoa_to_sheet(st); ws4['!cols']=[6,11,10,14,12,14,10].map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb, ws4, '제출 현황');
+  // 5. 날짜 설정
+  const ds=[['구분','날짜','내용']];
+  [...(S.settings.excludeDates||[])].sort((a,b)=>a.start.localeCompare(b.start)).forEach(x=>ds.push(['수업공개 제외',fmtRange(x.start,x.end),x.reason]));
+  [...(S.settings.refDates||[])].sort((a,b)=>a.start.localeCompare(b.start)).forEach(x=>ds.push(['참고',fmtRange(x.start,x.end),x.note]));
+  if(od) ds.push(['전교사 공개',fmtDate(od),'']);
+  const ws5=XLSX.utils.aoa_to_sheet(ds); ws5['!cols']=[{wch:14},{wch:26},{wch:40}];
+  XLSX.utils.book_append_sheet(wb, ws5, '날짜 설정');
+  const d=new Date(), p=n=>String(n).padStart(2,'0');
+  XLSX.writeFile(wb, `${S.settings.year}_${S.settings.semester}학기_동료장학_수업공개_취합_${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}.xlsx`);
+};
+
+/* ---------- 시작 ---------- */
+if(!SCRIPT_URL) $('testBanner').classList.remove('hidden');
+reload();
+</script>
+</body>
+</html>
